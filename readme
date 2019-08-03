@@ -1,0 +1,13 @@
+uwsgi启动命令:
+ uwsgi --socket :8083 --module AiEditor.wsgi  --py-autoreload=1
+nginx重启命令:
+ sudo nginx -s reload
+ ssh连接远程主机
+ssh ubuntu@52.80.106.20
+ssh ubuntu@52.80.106.20 -t 'cd /data/wangshuai/AiEditor; bash --login'
+启动测试服务器：
+python manage.py runserver 0.0.0.0:8001
+执行测试:
+python manage.py test backend
+
+

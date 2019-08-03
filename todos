@@ -1,0 +1,188 @@
+功能1：获取用户信息
+
+输入：phoneNumber
+输出：(是否注册：signed,用户id：userID,手机号码：phoneNumber)
+{
+    phoneNumber
+}
+{
+    signed : true,
+    userID : 1,
+    phoneNumber : 17162713333
+}
+功能1获取用户信息对应api: [
+api: http://52.80.106.20:8000/backend/user/telnumber
+例如：http://52.80.106.20:8000/backend/user/18323819602 -> {"signed": true, "userID": 2, "phoneNumber": "18323819602"}
+     http://52.80.106.20:8000/backend/user/18323819602 -> {"signed": false, "userID": null, "phoneNumber": null}
+]
+
+
+功能2：获取题目
+输入：typeOfQue：长中短
+输出：
+题目id：queID
+{
+    typeOfQue:2//长句联系
+}
+{
+    typeOfQue:2,
+    question:"Paraphrasing is extremely important, so it should be learned!",
+    queID:0//题目id
+}
+功能2获取题目api: [
+api: http://52.80.106.20:8000/backend/problem/length
+例如：http://52.80.106.20:8000/backend/problem/1 -> {"signed": true, "userID": 2, "phoneNumber": "18323819602"}
+     http://52.80.106.20:8000/backend/user/18323819602 -> {"signed": false, "userID": null, "phoneNumber": null}
+]
+
+
+
+获取此题目三个最好答案及其评价
+输入：
+题目id：queID
+用户id：userID
+输出：
+题目信息
+评价信息
+{
+    queID:1,
+    userID:1
+}
+{
+    question:"You should learn paraphrasing, for it is very important.",
+    rates:[
+        {
+            id:031,// 做题id(可以唯一标识一个回答)
+            rate:92,//总分
+            detail:[ // 几个指标得分
+                {
+                    id: 0, // 指标序号
+                    value: 3, // 分数
+                    name: '语义相似', //指标名
+                    desc: '句子可以表达原句部分意义' // 评价语
+                },
+                {
+                    id: 0, // 指标序号
+                    value: 3, // 分数
+                    name: '语义相似', //指标名
+                    desc: '句子可以表达原句部分意义' // 评价语
+                },
+                {
+                    id: 0, // 指标序号
+                    value: 3, // 分数
+                    name: '语义相似', //指标名
+                    desc: '句子可以表达原句部分意义' // 评价语
+                }
+            ]
+        },
+        {
+            id:031,// 做题id(可以唯一标识一个回答)
+            rate:92,//总分
+            detail:[ // 几个指标得分
+                {
+                    id: 0, // 指标序号
+                    value: 3, // 分数
+                    name: '语义相似', //指标名
+                    desc: '句子可以表达原句部分意义' // 评价语
+                },
+                {
+                    id: 0, // 指标序号
+                    value: 3, // 分数
+                    name: '语义相似', //指标名
+                    desc: '句子可以表达原句部分意义' // 评价语
+                },
+                {
+                    id: 0, // 指标序号
+                    value: 3, // 分数
+                    name: '语义相似', //指标名
+                    desc: '句子可以表达原句部分意义' // 评价语
+                }
+            ]
+        },
+        {
+            id:031,// 做题id(可以唯一标识一个回答)
+            rate:92,//总分
+            detail:[ // 几个指标得分
+                {
+                    id: 0, // 指标序号
+                    value: 3, // 分数
+                    name: '语义相似', //指标名
+                    desc: '句子可以表达原句部分意义' // 评价语
+                },
+                {
+                    id: 0, // 指标序号
+                    value: 3, // 分数
+                    name: '语义相似', //指标名
+                    desc: '句子可以表达原句部分意义' // 评价语
+                },
+                {
+                    id: 0, // 指标序号
+                    value: 3, // 分数
+                    name: '语义相似', //指标名
+                    desc: '句子可以表达原句部分意义' // 评价语
+                }
+            ]
+        }
+    ]
+}
+
+
+
+提交答案并获取评价
+输入：
+问题id：queID
+答案内容：ans
+输出“
+问题id：queID
+评价
+唯一标识答案的id
+{
+    queID:0,
+    ans:"Paraphrasing is extremely important, so it should be learned!"
+}
+{
+    queID:0,
+    id:031,// 做题id(可以唯一标识一个回答)
+    rate:92,//总分
+    isExc:true,// 优秀到进入三个优秀答案
+    detail:[ // 几个指标得分
+        {
+            id: 0, // 指标序号
+            value: 3, // 分数
+            name: '语义相似', //指标名
+            desc: '句子可以表达原句部分意义' // 评价语
+        },
+        {
+            id: 0, // 指标序号
+            value: 3, // 分数
+            name: '语义相似', //指标名
+            desc: '句子可以表达原句部分意义' // 评价语
+        },
+        {
+            id: 0, // 指标序号
+            value: 3, // 分数
+            name: '语义相似', //指标名
+            desc: '句子可以表达原句部分意义' // 评价语
+        }
+    ]
+}
+// 如果用户得分高于三个优秀答案，则把优秀答案里最低分的答案挤出
+获取高分答案
+输入：
+问题id
+输出：
+问题id
+(<=)三个优秀答案
+{
+    queID:0
+}
+{
+    queID:0,
+    excAns:[
+        "Paraphrasing is extremely important, so it should be learned!",
+        "Paraphrasing is extremely important, so it should be learned!",
+        "Paraphrasing is extremely important, so it should be learned!"
+    ]// 按照分数由高到低排序
+}
+按练习时间获取做题记录
+按得分获取做题记录
