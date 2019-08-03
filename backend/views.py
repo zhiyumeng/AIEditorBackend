@@ -5,7 +5,7 @@ from django.core import serializers
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
-from .models import User, Sentence, ProblemRecord
+from .models import User, Sentence, ProblemRecord, GoodAnswer
 import random
 from ml_models.similarity import inferencePairsFromGraph
 import json
@@ -138,6 +138,11 @@ def evaluate_sentence(request, json_sentence):
     record = ProblemRecord.objects.create(user_id=user_id, problem_id=sentence_id, answer=customer_answer,
                                           score=total_score)
     record.save()
+
+    record_set = GoodAnswer.objects.filter(record_id__problem_id=sentence_id).order_by('score')
+    if len(record_set) < 3:
+        GoodAnswer.objects.create(record_id=record.id).save()
+
     detail = [get_aspect_detail(0, similarity_score, '相似性', 'None at now')]
     # queID: 0,
     # id: 031, // 做题id(可以唯一标识一个回答)
