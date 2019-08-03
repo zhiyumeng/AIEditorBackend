@@ -122,18 +122,33 @@ api: http://52.80.106.20:8000/backend/problem/length(012分别代表短中长)
     return JsonResponse(response_dict)
 
 
+def get_aspect_detail(id, value, name, description):
+    return {'id': id, 'value': value, 'name': name, 'description': description}
+
+
 # 评价用户产生的句子
 def evaluate_sentence(request, json_sentence):
     info = json.loads(json_sentence)['sentence']
     sentence_id = info['queID']
     customer_answer = info['ans']
+    user_id = info['user_id']
     sentence_instance = Sentence.objects.filter(id=sentence_id)[0]
     similarity_score = inferencePairsFromGraph(customer_answer, sentence_instance.sentence)
+    total_score = similarity_score  # todo:完善总分评价指标
+    record = ProblemRecord.objects.create(user_id=user_id, problem_id=sentence_id, answer=customer_answer,
+                                          score=total_score)
+    record.save()
+    detail = [get_aspect_detail(0, similarity_score, '相似性', 'None at now')]
     # queID: 0,
     # id: 031, // 做题id(可以唯一标识一个回答)
     # rate: 92, // 总分
     # isExc: true, // 优秀到进入三个优秀答案
-    rs = {'queID': sentence_id}
+    rs = {'queID': sentence_id,
+          'record_id': record.id,
+          'rate': total_score,
+          'isExc': False,  # todo:确认是不是最好的三个句子
+          'detail': detail
+          }
 
     return JsonResponse(rs)
 
