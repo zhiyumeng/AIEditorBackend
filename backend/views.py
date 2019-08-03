@@ -145,7 +145,7 @@ def evaluate_sentence(request, json_sentence):
     else:
         min_score_good_record = record_set[0]
         if min_score_good_record.record_id.score < total_score:
-            GoodAnswer.objects.create(record_id=record)
+            GoodAnswer.objects.create(record_id=record).save()
             min_score_good_record.delete()
 
 
