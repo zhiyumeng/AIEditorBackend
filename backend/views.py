@@ -139,9 +139,15 @@ def evaluate_sentence(request, json_sentence):
                                           score=total_score)
     record.save()
 
-    record_set = GoodAnswer.objects.filter(record_id__problem_id=sentence_id).order_by('score')
+    record_set = GoodAnswer.objects.filter(record_id__problem_id=sentence_id).values('record_id__problem_id','record_id__score').order_by('record_id__score')
     if len(record_set) < 3:
-        GoodAnswer.objects.create(record_id=record.id).save()
+        GoodAnswer.objects.create(record_id=record).save()
+    else:
+        min_score_good_record = record_set[0]
+        if min_score_good_record.record_id.score < total_score:
+            GoodAnswer.objects.create(record_id=record)
+            min_score_good_record.delete()
+
 
     detail = [get_aspect_detail(0, similarity_score, '相似性', 'None at now')]
     # queID: 0,
