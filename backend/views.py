@@ -85,7 +85,7 @@ api: http://52.80.106.20:8000/backend/problem/length(012分别代表短中长)
 
 
 # 根据id获取句子
-def get_sentence_by_id(request, problem_id, user_id):
+def get_sentence_by_id(request, problem_index, user_id, problem_type):
     '''
     功能2：获取题目
 输入：typeOfQue：长中短
@@ -106,14 +106,15 @@ api: http://52.80.106.20:8000/backend/problem/length(012分别代表短中长)
     :return:
     '''
 
-    query_set = Sentence.objects.filter(id=problem_id)
+    query_set = Sentence.objects.filter(sentence_type=problem_type)
 
-    if query_set:
-        sentence = query_set[0]
+    if len(query_set) >= problem_index:
+        sentence = query_set[problem_index]
         experienced = ProblemRecord.objects.filter(problem_id=sentence.id, user_id=user_id).exists()
         response_dict = {'problem_type': sentence.sentence_type, 'sentence': sentence.sentence,
                          'problem_id': sentence.id,
-                          'experienced':experienced
+                         'problem_index': problem_index,
+                         'experienced': experienced
                          }
     else:
         response_dict = {'error': 'problem not exists'}
