@@ -54,7 +54,7 @@ class GoodAnswer(models.Model):
                                      unique=True)
 
     def __str__(self):
-        return "The problem %d 's record id of good answers" % (self.record_id.id)
+        return "The problem %d 's record id of good answers" % (self.record_id.problem_id)
 
 
 class Composite(models.Model):
