@@ -169,7 +169,7 @@ def evaluate_sentence(request, json_sentence):
           'detail': detail
           }
 
-    return JsonResponse(rs)
+    return JsonResponse(json.dumps(rs))
 
 
 def index(request):
