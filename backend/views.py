@@ -149,11 +149,14 @@ def evaluate_sentence(request, json_sentence):
 
     # 如果评分为最高的三个之一，则更新goodAnswer表
     record_set = GoodAnswer.objects.filter(record_id__problem_id=sentence_id).order_by('record_id__score')
+    isExc = False
     if len(record_set) < 3:
         GoodAnswer.objects.create(record_id=record).save()
+        isExc = True
     else:
         min_score_good_record = record_set[0]
         if min_score_good_record.record_id.score < total_score:
+            isExc = False
             GoodAnswer.objects.create(record_id=record).save()
             min_score_good_record.delete()
 
@@ -165,7 +168,7 @@ def evaluate_sentence(request, json_sentence):
     rs = {'queID': sentence_id,
           'record_id': record.id,
           'rate': str(total_score),
-          'isExc': False,  # todo:确认是不是最好的三个句子
+          'isExc': isExc,
           'detail': detail
           }
 
