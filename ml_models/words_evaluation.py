@@ -26,6 +26,8 @@ import spacy
 #     return newSentence
 
 sp = spacy.load('en_core_web_sm')
+
+
 def removePunctuation(sentence):
     '''
     去掉英语句子中的标点符号,
@@ -42,6 +44,7 @@ def removePunctuation(sentence):
     newSentence = ' '.join(temp)
     return newSentence
 
+
 def get_word_lemma(tag):
     '''
     获取英语单词的原型，
@@ -52,15 +55,16 @@ def get_word_lemma(tag):
     if tag[1].startswith('J'):
         word_pos = wordnet.ADJ
     elif tag[1].startswith('V'):
-        word_pos =  wordnet.VERB
+        word_pos = wordnet.VERB
     elif tag[1].startswith('R'):
-        word_pos =  wordnet.ADV
+        word_pos = wordnet.ADV
     else:
-        word_pos =  wordnet.NOUN
+        word_pos = wordnet.NOUN
 
     wnl = WordNetLemmatizer()
     newWord = wnl.lemmatize(tag[0], pos=word_pos)
     return newWord
+
 
 def sentenceScore(sentence):
     '''
@@ -87,8 +91,9 @@ def sentenceScore(sentence):
         word_lemma = get_word_lemma(tag)
         if word_lemma in wordTop5000List:
             score = score + 1
-    return (score/len(tokens))
+    return (score / len(tokens))
+
+
 if __name__ == '__main__':
     sentence = 'hello world , i love the world very much'
-    print('单词常见程度',sentenceScore('sentence'))
-
+    print(sentence, '单词常见程度', sentenceScore('sentence'))
