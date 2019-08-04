@@ -123,7 +123,7 @@ api: http://52.80.106.20:8000/backend/problem/length(012分别代表短中长)
 
 
 def get_aspect_detail(id, value, name, description):
-    return {'id': id, 'value': value, 'name': name, 'description': description}
+    return {'id': id, 'value': str(value), 'name': name, 'description': description}
 
 
 # 评价用户产生的句子
@@ -164,12 +164,12 @@ def evaluate_sentence(request, json_sentence):
     # isExc: true, // 优秀到进入三个优秀答案
     rs = {'queID': sentence_id,
           'record_id': record.id,
-          'rate': total_score,
+          'rate': str(total_score),
           'isExc': False,  # todo:确认是不是最好的三个句子
           'detail': detail
           }
 
-    return JsonResponse(json.dumps(rs))
+    return JsonResponse(rs)
 
 
 def index(request):
