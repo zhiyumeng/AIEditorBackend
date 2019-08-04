@@ -137,9 +137,9 @@ def evaluate_sentence(request):
     print(postBody)
     info = json.loads(postBody)
     print(info)
-    sentence_id = info['queID']
+    sentence_id = int(info['queID'])
     customer_answer = info['ans']
-    user_id = info['user_id']
+    user_id = int(info['user_id'])
     # 评估句子
     total_score, details = evaluate_sentence(sentence_id, customer_answer)
     # 保存结果
