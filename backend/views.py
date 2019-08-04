@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.core import serializers
-from backend.utils.evaluate import evaluate_sentence_total
+from backend.utils.evaluate import evaluate_sentence_total, updateGoodAnswer
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
@@ -131,40 +131,24 @@ def get_aspect_detail(id, value, name, description):
 @csrf_exempt
 def evaluate_sentence(request):
     assert (request.method == 'POST')
-    print("the POST method")
-    postBody = request.body
-    print(type(postBody))
-    print(postBody)
-    info = json.loads(postBody)
+    info = json.loads(request.body)
     print(info)
-    sentence_id = int(info['queID'])
-    customer_answer = info['ans']
-    user_id = int(info['user_id'])
-    # 评估句子
-    total_score, details = evaluate_sentence_total(sentence_id, customer_answer)
-    # 保存结果
+    sentence_id, customer_answer, user_id = int(info['queID']), info['ans'], int(info['user_id'])
+    # 取句子和用户
     try:
         sentence_instance = Sentence.objects.filter(id=sentence_id)[0]
         user_instance = User.objects.filter(id=user_id)[0]
-        record = ProblemRecord.objects.create(user_id=user_instance, problem_id=sentence_instance,
-                                              answer=customer_answer,
-                                              score=total_score)
-        record.save()
     except:
         return {'error': 'no such problem or user'}
-
+    # 评估句子
+    total_score, details = evaluate_sentence_total(sentence_instance.sentence, customer_answer)
+    # 保存结果
+    record = ProblemRecord.objects.create(user_id=user_instance, problem_id=sentence_instance,
+                                          answer=customer_answer,
+                                          score=total_score)
+    record.save()
     # 如果评分为最高的三个之一，则更新goodAnswer表
-    record_set = GoodAnswer.objects.filter(record_id__problem_id=sentence_id).order_by('record_id__score')
-    isExc = False
-    if len(record_set) < 3:
-        GoodAnswer.objects.create(record_id=record).save()
-        isExc = True
-    else:
-        min_score_good_record = record_set[0]
-        if min_score_good_record.record_id.score < total_score:
-            isExc = False
-            GoodAnswer.objects.create(record_id=record).save()
-            min_score_good_record.delete()
+    isExc = updateGoodAnswer(sentence_id, record)
 
     rs = {'queID': sentence_id,
           'record_id': record.id,

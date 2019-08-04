@@ -1,5 +1,6 @@
 from ml_models.words_evaluation import sentenceScore as words_score
-from backend.models import Sentence
+from ml_models.FleschReadingEaseScore import fresScore
+from backend.models import Sentence, GoodAnswer
 from ml_models.similarity import inferencePairsFromGraph
 
 
@@ -18,12 +19,18 @@ def evaluate_sentence_wordscore(sentence):
      '''
     # top 5000 English words were downloaded from
     # https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000
-    readable_score = words_score(sentence)
-    detail = {'id': 2, 'value': str(readable_score), 'name': '单词生僻性', 'description': '单词数值越小，越生僻'}
-    return readable_score, detail
+    wordscore = words_score(sentence)
+    wordscore_detail = {'id': 2, 'value': str(wordscore), 'name': '单词生僻性', 'description': '单词数值越小，越生僻'}
+    return wordscore, wordscore_detail
 
 
-def evaluate_similarity(problem_id, customer_answer):
+def evaluate_readbility(sentence):
+    readable_score = fresScore(sentence)
+    readable_detail = {'id': 3, 'value': str(readable_score), 'name': '句子可读性', 'description': '句子可读程度'}
+    return readable_score, readable_detail
+
+
+def evaluate_similarity(sentence, customer_answer):
     '''
     句子相似程度
     :param problem_id:
@@ -31,14 +38,29 @@ def evaluate_similarity(problem_id, customer_answer):
     :return:
     '''
 
-    sentence_instance = Sentence.objects.filter(id=problem_id)[0]
-    similarity_score = inferencePairsFromGraph(customer_answer, sentence_instance.sentence)
+    similarity_score = inferencePairsFromGraph(customer_answer, sentence)
     similarity_detail = {'id': 1, 'value': str(similarity_score), 'name': '句子相似度', 'description': '句子相似程度'}
     return similarity_score, similarity_detail
 
 
-def evaluate_sentence_total(problem_id, customer_answer):
-    readable_score, readable_detail = evaluate_sentence_wordscore(customer_answer)
-    similarity_score, similarity_detail = evaluate_similarity(problem_id, customer_answer)
-    total_score = readable_score + similarity_score
-    return total_score, [readable_detail, similarity_detail]
+def evaluate_sentence_total(sentence, customer_answer):
+    wordscore, wordscore_detail = evaluate_sentence_wordscore(customer_answer)
+    similarity_score, similarity_detail = evaluate_similarity(sentence, customer_answer)
+    readable_score, readable_detail = evaluate_readbility(customer_answer)
+    total_score = wordscore + similarity_score + readable_score
+    return total_score, [wordscore_detail, similarity_detail, readable_detail]
+
+
+def updateGoodAnswer(sentence_id, record):
+    record_set = GoodAnswer.objects.filter(record_id__problem_id=sentence_id).order_by('record_id__score')
+    isExc = False
+    if len(record_set) < 3:
+        GoodAnswer.objects.create(record_id=record).save()
+        isExc = True
+    else:
+        min_score_good_record = record_set[0]
+        if min_score_good_record.record_id.score < record.score:
+            isExc = True
+            GoodAnswer.objects.create(record_id=record).save()
+            min_score_good_record.delete()
+    return isExc
