@@ -2,6 +2,7 @@ from ml_models.words_evaluation import sentenceScore as words_score
 from ml_models.FleschReadingEaseScore import fresScore
 from backend.models import Sentence, GoodAnswer
 from ml_models.similarity import inferencePairsFromGraph
+from ml_models.sentenceComplexity import sentenceComplex
 
 
 def evaluate_sentence_wordscore(sentence):
@@ -43,14 +44,17 @@ def evaluate_similarity(sentence, customer_answer):
     return similarity_score, similarity_detail
 
 
+# 从各个指标评价句子
 def evaluate_sentence_total(sentence, customer_answer):
     wordscore, wordscore_detail = evaluate_sentence_wordscore(customer_answer)
     similarity_score, similarity_detail = evaluate_similarity(sentence, customer_answer)
     readable_score, readable_detail = evaluate_readbility(customer_answer)
-    total_score = wordscore + similarity_score + readable_score
-    return total_score, [wordscore_detail, similarity_detail, readable_detail]
+    complex_score, complex_detail = evaluate_sentence_complexity(sentence, customer_answer)
+    total_score = wordscore + similarity_score + readable_score + complex_score
+    return total_score, [wordscore_detail, similarity_detail, readable_detail, complex_detail]
 
 
+# 更新好答案
 def updateGoodAnswer(sentence_id, record):
     record_set = GoodAnswer.objects.filter(record_id__problem_id=sentence_id).order_by('record_id__score')
     isExc = False
@@ -64,3 +68,9 @@ def updateGoodAnswer(sentence_id, record):
             GoodAnswer.objects.create(record_id=record).save()
             min_score_good_record.delete()
     return isExc
+
+
+def evaluate_sentence_complexity(problem_sentence, customer_sentence):
+    complex_score = sentenceComplex(problem_sentence, customer_sentence)
+    complex_detail = {'id': 4, 'value': str(complex_score), 'name': '句子复杂度', 'description': '句子复杂程度'}
+    return complex_score, complex_detail
