@@ -46,7 +46,7 @@ class ProblemRecord(models.Model):
     score = models.FloatField('score of user on problem', blank=False)
 
     def __str__(self):
-        return "Record of answers"
+        return "Record %s of user %s on problem %s" % (self.id, self.user_id.id, self.problem_id.id)
 
 
 class GoodAnswer(models.Model):
