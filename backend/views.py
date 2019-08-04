@@ -128,7 +128,9 @@ def get_aspect_detail(id, value, name, description):
 
 # 评价用户产生的句子
 def evaluate_sentence(request, json_sentence):
+    print(json_sentence)
     info = json.loads(json_sentence)
+    print(info)
     sentence_id = info['queID']
     customer_answer = info['ans']
     user_id = info['user_id']
