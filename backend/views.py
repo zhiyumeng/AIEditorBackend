@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.core import serializers
-from backend.utils.evaluate import evaluate_sentence
+from backend.utils.evaluate import evaluate_sentence_total
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
@@ -141,7 +141,7 @@ def evaluate_sentence(request):
     customer_answer = info['ans']
     user_id = int(info['user_id'])
     # 评估句子
-    total_score, details = evaluate_sentence(sentence_id, customer_answer)
+    total_score, details = evaluate_sentence_total(sentence_id, customer_answer)
     # 保存结果
     try:
         sentence_instance = Sentence.objects.filter(id=sentence_id)[0]

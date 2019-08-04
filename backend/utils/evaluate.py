@@ -37,7 +37,7 @@ def evaluate_similarity(problem_id, customer_answer):
     return similarity_score, similarity_detail
 
 
-def evaluate_sentence(problem_id, customer_answer):
+def evaluate_sentence_total(problem_id, customer_answer):
     readable_score, readable_detail = evaluate_sentence_wordscore(customer_answer)
     similarity_score, similarity_detail = evaluate_similarity(problem_id, customer_answer)
     total_score = readable_score + similarity_score
