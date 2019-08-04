@@ -21,12 +21,14 @@ def evaluate_sentence_wordscore(sentence):
     # top 5000 English words were downloaded from
     # https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000
     wordscore = words_score(sentence)
+    wordscore = int(wordscore * 5)
     wordscore_detail = {'id': 2, 'value': str(wordscore), 'name': '单词生僻性', 'description': '单词数值越小，越生僻'}
     return wordscore, wordscore_detail
 
 
 def evaluate_readbility(sentence):
     readable_score = fresScore(sentence)
+    readable_score = 3
     readable_detail = {'id': 3, 'value': str(readable_score), 'name': '句子可读性', 'description': '句子可读程度'}
     return readable_score, readable_detail
 
@@ -40,6 +42,7 @@ def evaluate_similarity(sentence, customer_answer):
     '''
 
     similarity_score = inferencePairsFromGraph(customer_answer, sentence)
+    similarity_score = int(similarity_score * 5)
     similarity_detail = {'id': 1, 'value': str(similarity_score), 'name': '句子相似度', 'description': '句子相似程度'}
     return similarity_score, similarity_detail
 
@@ -72,5 +75,6 @@ def updateGoodAnswer(sentence_id, record):
 
 def evaluate_sentence_complexity(problem_sentence, customer_sentence):
     complex_score = sentenceComplex(problem_sentence, customer_sentence)
+    complex_score = int(complex_score * 5)
     complex_detail = {'id': 4, 'value': str(complex_score), 'name': '句子复杂度', 'description': '句子复杂程度'}
     return complex_score, complex_detail
