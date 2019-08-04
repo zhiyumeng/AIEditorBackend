@@ -88,4 +88,7 @@ def sentenceScore(sentence):
         if word_lemma in wordTop5000List:
             score = score + 1
     return (score/len(tokens))
+if __name__ == '__main__':
+    sentence = 'hello world , i love the world very much'
+    print('单词常见程度',sentenceScore('sentence'))
 
