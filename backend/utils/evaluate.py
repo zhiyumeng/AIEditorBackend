@@ -19,7 +19,7 @@ def evaluate_sentence_wordscore(sentence):
     # top 5000 English words were downloaded from
     # https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000
     readable_score = words_score(sentence)
-    detail = {'id': 2, 'value': readable_score, 'name': '单词生僻性', 'description': '单词数值越小，越生僻'}
+    detail = {'id': 2, 'value': str(readable_score), 'name': '单词生僻性', 'description': '单词数值越小，越生僻'}
     return readable_score, detail
 
 
@@ -33,7 +33,7 @@ def evaluate_similarity(problem_id, customer_answer):
 
     sentence_instance = Sentence.objects.filter(id=problem_id)[0]
     similarity_score = inferencePairsFromGraph(customer_answer, sentence_instance.sentence)
-    similarity_detail = {'id': 1, 'value': similarity_score, 'name': '句子相似度', 'description': '句子相似程度'}
+    similarity_detail = {'id': 1, 'value': str(similarity_score), 'name': '句子相似度', 'description': '句子相似程度'}
     return similarity_score, similarity_detail
 
 
