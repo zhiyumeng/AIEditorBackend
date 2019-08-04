@@ -134,15 +134,23 @@ def evaluate_sentence(request, json_sentence):
     sentence_id = info['queID']
     customer_answer = info['ans']
     user_id = info['user_id']
-    sentence_instance = Sentence.objects.filter(id=sentence_id)[0]
-    similarity_score = inferencePairsFromGraph(customer_answer, sentence_instance.sentence)
-    total_score = similarity_score  # todo:完善总分评价指标
-    record = ProblemRecord.objects.create(user_id=user_id, problem_id=sentence_id, answer=customer_answer,
-                                          score=total_score)
-    record.save()
+    try:
+        sentence_instance = Sentence.objects.filter(id=sentence_id)[0]
+        user_instance = User.objects.filter(id=user_id)[0]
 
-    #如果评分为最高的三个之一，则更新goodAnswer表
-    record_set = GoodAnswer.objects.filter(record_id__problem_id=sentence_id).values('record_id__problem_id','record_id__score').order_by('record_id__score')
+        similarity_score = inferencePairsFromGraph(customer_answer, sentence_instance.sentence)
+        total_score = similarity_score  # todo:完善总分评价指标
+        record = ProblemRecord.objects.create(user_id=user_instance, problem_id=sentence_instance,
+                                              answer=customer_answer,
+                                              score=total_score)
+        record.save()
+    except:
+        return {'error': 'no such problem or user'}
+
+    # 如果评分为最高的三个之一，则更新goodAnswer表
+    record_set = GoodAnswer.objects.filter(record_id__problem_id=sentence_id).values('record_id__problem_id',
+                                                                                     'record_id__score').order_by(
+        'record_id__score')
     if len(record_set) < 3:
         GoodAnswer.objects.create(record_id=record).save()
     else:
@@ -150,7 +158,6 @@ def evaluate_sentence(request, json_sentence):
         if min_score_good_record.record_id.score < total_score:
             GoodAnswer.objects.create(record_id=record).save()
             min_score_good_record.delete()
-
 
     detail = [get_aspect_detail(0, similarity_score, '相似性', 'None at now')]
     # queID: 0,
