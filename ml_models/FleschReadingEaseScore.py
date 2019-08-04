@@ -96,5 +96,11 @@ def fresScore(sentence):
 
 
 if __name__ == '__main__':
-    sentence = ' hello world i love listen the song'
-    print(sentence, fresScore(sentence))
+    import time
+
+    while 1:
+        now = time.time()
+        sentence = ' hello world i love listen the song'
+        print(sentence, fresScore(sentence))
+        end = time.time()
+        print('time:', end - now)
