@@ -174,6 +174,8 @@ def get_aspect_detail(id, value, name, description):
 #
 #     return JsonResponse(rs)
 #评价句子/post
+
+@csrf_exempt
 def evaluate_sentence(request):
     assert (request.method == 'POST')
     print("the POST method")
