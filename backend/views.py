@@ -184,7 +184,7 @@ def evaluate_sentence(request):
     print(postBody)
     json_sentence = json.loads(postBody)
     print(json_sentence)
-    info = json.loads(json_sentence)
+    info = json_sentence
     print(info)
     sentence_id = info['queID']
     customer_answer = info['ans']
