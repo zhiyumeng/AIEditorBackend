@@ -10,6 +10,9 @@ import pandas as pd
 # import string
 import spacy
 
+d = cmudict.dict()
+sp = spacy.load('en_core_web_sm')
+
 
 def syllables(word):
     '''
@@ -42,7 +45,7 @@ def cmusyl(word):
     输入：单词，
     输出：数字list
     '''
-    d = cmudict.dict()
+
     try:
         return [len(list(y for y in x if y[-1].isdigit())) for x in d[word.lower()]]
     except KeyError:
@@ -66,9 +69,6 @@ def fresDescr(score):
     for k, v in score_range.items():
         if score >= v:
             return k
-
-
-sp = spacy.load('en_core_web_sm')
 
 
 def fresScore(sentence):
@@ -98,9 +98,8 @@ def fresScore(sentence):
 if __name__ == '__main__':
     import time
 
-    while 1:
-        now = time.time()
-        sentence = ' hello world i love listen the song'
-        print(sentence, fresScore(sentence))
-        end = time.time()
-        print('time:', end - now)
+    now = time.time()
+    sentence = ' hello world i love listen the song'
+    print(sentence, fresScore(sentence))
+    end = time.time()
+    print('time:', end - now)
