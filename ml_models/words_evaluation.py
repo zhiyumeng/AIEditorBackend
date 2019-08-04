@@ -77,7 +77,7 @@ def sentenceScore(sentence):
     '''
     # top 5000 English words were downloaded from 
     # https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000
-    wordTop5000 = pd.read_csv('Oxford_5000.csv', sep='\t')
+    wordTop5000 = pd.read_csv('ml_models/Oxford_5000.csv', sep='\t')
     wordTop5000List = list(wordTop5000['Word'].values)
     score = 0.0
     newSentence = removePunctuation(sentence)
