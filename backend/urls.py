@@ -12,5 +12,6 @@ urlpatterns = [
     # 根据id获取题目
     path('problems/<str:problem_type>/<int:problem_index>/user/<int:user_id>', views.get_sentence_by_id),
     # 提交题目并获取答案
-    path('evaluation/', views.evaluate_sentence)
+    path('evaluation/', views.evaluate_sentence),
+    path('good_answers/<int:problem_id>', views.get_good_answers)
 ]

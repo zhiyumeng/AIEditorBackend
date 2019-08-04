@@ -184,4 +184,12 @@ def predict(request):
     data = {"result": str(res), 'time': end - start}
     return JsonResponse(data)
 
-# def get_good_answers(problem_id):
+
+def get_good_answers(request, problem_id):
+    rs = GoodAnswer.objects.filter(record_id__problem_id__id=1).values('record_id__answer')[:3]
+    rs = [dic['record_id__answer'] for dic in rs]
+    rs_dict = {
+        'queID': problem_id,
+        'excAns': rs
+    }
+    return JsonResponse(rs_dict)
