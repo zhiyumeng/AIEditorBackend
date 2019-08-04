@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.core import serializers
+from backend.utils.evaluate import evaluate_sentence
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
@@ -134,19 +135,17 @@ def evaluate_sentence(request):
     postBody = request.body
     print(type(postBody))
     print(postBody)
-    json_sentence = json.loads(postBody)
-    print(json_sentence)
-    info = json_sentence
+    info = json.loads(postBody)
     print(info)
     sentence_id = info['queID']
     customer_answer = info['ans']
     user_id = info['user_id']
+    # 评估句子
+    total_score, details = evaluate_sentence(sentence_id, customer_answer)
+    # 保存结果
     try:
         sentence_instance = Sentence.objects.filter(id=sentence_id)[0]
         user_instance = User.objects.filter(id=user_id)[0]
-
-        similarity_score = inferencePairsFromGraph(customer_answer, sentence_instance.sentence)
-        total_score = similarity_score  # todo:完善总分评价指标
         record = ProblemRecord.objects.create(user_id=user_instance, problem_id=sentence_instance,
                                               answer=customer_answer,
                                               score=total_score)
@@ -167,16 +166,11 @@ def evaluate_sentence(request):
             GoodAnswer.objects.create(record_id=record).save()
             min_score_good_record.delete()
 
-    detail = [get_aspect_detail(0, similarity_score, '相似性', 'None at now')]
-    # queID: 0,
-    # id: 031, // 做题id(可以唯一标识一个回答)
-    # rate: 92, // 总分
-    # isExc: true, // 优秀到进入三个优秀答案
     rs = {'queID': sentence_id,
           'record_id': record.id,
           'rate': str(total_score),
           'isExc': isExc,
-          'detail': detail
+          'detail': details
           }
 
     return JsonResponse(rs)
