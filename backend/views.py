@@ -127,7 +127,60 @@ def get_aspect_detail(id, value, name, description):
 
 
 # 评价用户产生的句子
-def evaluate_sentence(request, json_sentence):
+# def evaluate_sentence(request, json_sentence):
+#     print(json_sentence)
+#     info = json.loads(json_sentence)
+#     print(info)
+#     sentence_id = info['queID']
+#     customer_answer = info['ans']
+#     user_id = info['user_id']
+#     try:
+#         sentence_instance = Sentence.objects.filter(id=sentence_id)[0]
+#         user_instance = User.objects.filter(id=user_id)[0]
+#
+#         similarity_score = inferencePairsFromGraph(customer_answer, sentence_instance.sentence)
+#         total_score = similarity_score  # todo:完善总分评价指标
+#         record = ProblemRecord.objects.create(user_id=user_instance, problem_id=sentence_instance,
+#                                               answer=customer_answer,
+#                                               score=total_score)
+#         record.save()
+#     except:
+#         return {'error': 'no such problem or user'}
+#
+#     # 如果评分为最高的三个之一，则更新goodAnswer表
+#     record_set = GoodAnswer.objects.filter(record_id__problem_id=sentence_id).order_by('record_id__score')
+#     isExc = False
+#     if len(record_set) < 3:
+#         GoodAnswer.objects.create(record_id=record).save()
+#         isExc = True
+#     else:
+#         min_score_good_record = record_set[0]
+#         if min_score_good_record.record_id.score < total_score:
+#             isExc = False
+#             GoodAnswer.objects.create(record_id=record).save()
+#             min_score_good_record.delete()
+#
+#     detail = [get_aspect_detail(0, similarity_score, '相似性', 'None at now')]
+#     # queID: 0,
+#     # id: 031, // 做题id(可以唯一标识一个回答)
+#     # rate: 92, // 总分
+#     # isExc: true, // 优秀到进入三个优秀答案
+#     rs = {'queID': sentence_id,
+#           'record_id': record.id,
+#           'rate': str(total_score),
+#           'isExc': isExc,
+#           'detail': detail
+#           }
+#
+#     return JsonResponse(rs)
+#评价句子/post
+def evaluate_sentence(request):
+    assert (request.method == 'POST')
+    print("the POST method")
+    postBody = request.body
+    print(type(postBody))
+    print(postBody)
+    json_sentence = json.loads(postBody)
     print(json_sentence)
     info = json.loads(json_sentence)
     print(info)
@@ -173,7 +226,6 @@ def evaluate_sentence(request, json_sentence):
           }
 
     return JsonResponse(rs)
-
 
 def index(request):
     result = 0.99999
