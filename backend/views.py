@@ -139,6 +139,7 @@ def evaluate_sentence(request, json_sentence):
                                           score=total_score)
     record.save()
 
+    #如果评分为最高的三个之一，则更新goodAnswer表
     record_set = GoodAnswer.objects.filter(record_id__problem_id=sentence_id).values('record_id__problem_id','record_id__score').order_by('record_id__score')
     if len(record_set) < 3:
         GoodAnswer.objects.create(record_id=record).save()
