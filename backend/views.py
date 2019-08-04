@@ -182,3 +182,5 @@ def predict(request):
     end = time.time()
     data = {"result": str(res), 'time': end - start}
     return JsonResponse(data)
+
+# def get_good_answers(problem_id):
