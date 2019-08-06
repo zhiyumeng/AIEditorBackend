@@ -204,8 +204,15 @@ def get_good_answers(request, problem_id):
 # 根据用户id和题号返回所有该用户在该题下的所有答案
 def get_history_answers(request, user_id, problem_id):
     query_set = ProblemRecord.objects.filter(user_id=user_id, problem_id=problem_id)
-    rs = {}
+    rs_list = []
     for record in query_set:
         details = [change_record_detail_to_dict(record_detail) for record_detail in record.recorddetail_set.all()]
-        rs[record.id] = {'answer': record.answer, 'details': details, 'record_id': record.id}
-    return JsonResponse(rs)
+        instance_rs = {'queID': record.problem_id.id,
+                       'record_id': record.id,
+                       'rate': str(record.score),
+                       'detail': details,
+                       'customer_answer': record.answer
+                       }
+        rs_list.append(instance_rs)
+
+    return JsonResponse({'rs': rs_list})
