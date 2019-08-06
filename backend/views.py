@@ -155,7 +155,8 @@ def evaluate_sentence(request):
           'record_id': record.id,
           'rate': str(total_score),
           'isExc': isExc,
-          'detail': details
+          'detail': details,
+          'customer_answer': customer_answer
           }
 
     return JsonResponse(rs)
@@ -186,7 +187,6 @@ def predict(request):
 
 
 def get_good_answers(request, problem_id):
-
     rs = GoodAnswer.objects.filter(record_id__problem_id__id=1).values('record_id__answer')[:3]
     rs = [dic['record_id__answer'] for dic in rs]
     rs_dict = {
