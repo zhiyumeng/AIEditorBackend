@@ -216,3 +216,23 @@ def get_history_answers(request, user_id, problem_id):
         rs_list.append(instance_rs)
 
     return JsonResponse({'rs': rs_list})
+
+
+# 返回用户的历史回答，分页
+def get_history_answers_by_page(request, user_id, page_index):
+    range_start = (page_index - 1) * 6 + 1
+    range_end = page_index * 6
+    query_set = ProblemRecord.objects.filter(user_id=user_id).order_by('-id')[range_start:range_end]
+    rs_list = []
+    for record in query_set:
+        # details = [change_record_detail_to_dict(record_detail) for record_detail in record.recorddetail_set.all()]
+        instance_rs = {'queID': record.problem_id.id,
+                       'record_id': record.id,
+                       'rate': str(record.score),
+                       #            'detail': details,
+                       'customer_answer': record.answer,
+                       'page': page_index
+                       }
+        rs_list.append(instance_rs)
+
+    return JsonResponse({'rs': rs_list})

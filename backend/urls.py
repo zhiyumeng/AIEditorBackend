@@ -15,5 +15,5 @@ urlpatterns = [
     path('evaluation/', views.evaluate_sentence),
     # 根据题目id获取优秀答案
     path('good_answers/<int:problem_id>', views.get_good_answers),
-    path('history_answers/<int:user_id>/<int:problem_id>', views.get_history_answers)
+    path('history_answers/<int:user_id>/<int:page_index>', views.get_history_answers_by_page)
 ]
