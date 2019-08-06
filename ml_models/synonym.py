@@ -11,4 +11,7 @@ if __name__ == '__main__':
     print(sentence)
     print(get_syn(sentence))
     print(toc-tic)
+    while True:
+        sentence = input('input>')
+        print(get_syn(sentence))
 
