@@ -194,3 +194,10 @@ def get_good_answers(request, problem_id):
         'excAns': rs
     }
     return JsonResponse(rs_dict)
+
+
+# 根据用户id和题号返回所有该用户在该题下的所有答案
+def get_history_answers(request, user_id, problem_id):
+    query_set = ProblemRecord.objects.filter(user_id=user_id, problem_id=problem_id).values('answer')
+    answers = [q['answer'] for q in query_set]
+    return answers
