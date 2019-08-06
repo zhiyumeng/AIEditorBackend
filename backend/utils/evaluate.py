@@ -1,4 +1,5 @@
 from ml_models.words_evaluation import sentenceScore as words_score
+from ml_models.sentence_check import sentence_correction
 from ml_models.FleschReadingEaseScore import fresScore
 from backend.models import Sentence, GoodAnswer, RecordDetail
 from ml_models.similarity import inferencePairsFromGraph
@@ -69,8 +70,9 @@ def evaluate_sentence_total(sentence, customer_answer):
     similarity_score, similarity_detail = evaluate_similarity(sentence, customer_answer)
     readable_score, readable_detail = evaluate_readbility(customer_answer)
     complex_score, complex_detail = evaluate_sentence_complexity(sentence, customer_answer)
-    total_score = wordscore + similarity_score + readable_score + complex_score
-    return total_score, [wordscore_detail, similarity_detail, readable_detail, complex_detail]
+    correction_score, correction_detail = sentence_grammer_score(customer_answer)
+    total_score = wordscore + similarity_score + readable_score + complex_score + correction_score
+    return total_score, [wordscore_detail, similarity_detail, readable_detail, complex_detail, correction_detail]
 
 
 # 更新好答案
@@ -110,3 +112,10 @@ def change_record_detail_to_dict(record_detail):
     id = record_detail.category_id
     detail = {'id': id, 'value': str(record_detail.value), 'name': id_category[id], 'description': id_description[id]}
     return detail
+
+
+def sentence_grammer_score(sentence):
+    correction_score = sentence_correction(sentence)
+    correction_detail = {'id': 5, 'value': str(correction_score), 'name': id_category[5],
+                         'description': id_description[5]}
+    return correction_score, correction_detail
