@@ -44,7 +44,6 @@ class ProblemRecord(models.Model):
     problem_id = models.ForeignKey(to="Sentence", to_field="id", on_delete=models.CASCADE)
     answer = models.TextField('Answer')
     score = models.FloatField('score of user on problem', blank=False)
-    details = models.TextField('json details', blank=False, default="{'details':None}")
 
     def __str__(self):
         return "Record %s of user %s on problem %s" % (self.id, self.user_id.id, self.problem_id.id)
@@ -65,3 +64,13 @@ class Composite(models.Model):
 
     def __str__(self):
         return "%s written by %s" % (self.title, self.author)
+
+
+class RecordDetail(models.Model):
+    # similarity = 1
+    # seclusion = 2
+    # readable = 3
+    # complexity = 4
+    problem_record = models.ForeignKey(to='ProblemRecord', to_field='id', on_delete=models.CASCADE)
+    value = models.FloatField('value', blank=False)
+    category_id = models.IntegerField('句子相似度1,词汇生僻度2,句子可读性3,句子复杂度4', blank=False)

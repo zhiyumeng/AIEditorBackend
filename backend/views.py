@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.core import serializers
-from backend.utils.evaluate import evaluate_sentence_total, updateGoodAnswer
+from backend.utils.evaluate import evaluate_sentence_total, updateGoodAnswer, save_details
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
@@ -150,6 +150,9 @@ def evaluate_sentence(request):
     record.save()
     # 如果评分为最高的三个之一，则更新goodAnswer表
     isExc = updateGoodAnswer(sentence_id, record)
+
+    # 往数据库中存储答题细节
+    save_details(record, details)
 
     rs = {'queID': sentence_id,
           'record_id': record.id,

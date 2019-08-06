@@ -1,6 +1,6 @@
 from ml_models.words_evaluation import sentenceScore as words_score
 from ml_models.FleschReadingEaseScore import fresScore
-from backend.models import Sentence, GoodAnswer
+from backend.models import Sentence, GoodAnswer, RecordDetail
 from ml_models.similarity import inferencePairsFromGraph
 from ml_models.sentenceComplexity import sentenceComplex
 
@@ -78,3 +78,12 @@ def evaluate_sentence_complexity(problem_sentence, customer_sentence):
     complex_score = int(complex_score * 5)
     complex_detail = {'id': 4, 'value': str(complex_score), 'name': '句子复杂度', 'description': '句子复杂程度'}
     return complex_score, complex_detail
+
+
+def save_details(record_instance, details):
+    detail_instances = []
+    for detail in details:
+        value = float(detail['value'])
+        category_id = detail['id']
+        detail_instances.append(RecordDetail(category_id=category_id, value=value, problem_record=record_instance))
+    RecordDetail.objects.bulk_create(detail_instances)
