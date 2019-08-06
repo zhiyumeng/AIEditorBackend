@@ -30,6 +30,6 @@ def sentence_correction(sentence):
     }
 
 if __name__ == '__main__':
-    sentence = 'Paraphrasing is extremely important, so it shoulds be learned'
+    sentence = 'Paraphrasing is extremely important, so it shoulds be learned . '
     print(sentence)
     print(sentence_correction(sentence))
