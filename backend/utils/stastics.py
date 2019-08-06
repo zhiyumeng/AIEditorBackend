@@ -9,7 +9,7 @@ tz = timezone.get_current_timezone()
 
 
 # 获取用户当天的题目数量
-def get_user_problem_record_num(user_id, start=None, end=None, days=None):
+def get_user_problem_record_num(user_id, start=None, end=None, days=None, unique=True):
     if end is None:
         end = datetime.datetime.now().astimezone(tz=tz)
     if start is None:
@@ -17,15 +17,21 @@ def get_user_problem_record_num(user_id, start=None, end=None, days=None):
         start = datetime.datetime(start.year, start.month, start.day, 0, 0, 0).astimezone(tz=tz)
     print(start, '=====>', end)
     query_rs = ProblemRecord.objects.filter(user_id=user_id, add_date__range=(start, end)).values('problem_id')
-    ids = set([q['problem_id'] for q in query_rs])
+    ids = [q['problem_id'] for q in query_rs]
+    if unique:
+        ids = set(ids)
     return len(ids)
 
 
-def get_day_week_monthly_num(user_id):
-    num_day = get_user_problem_record_num(user_id=user_id, days=1)
-    num_week = get_user_problem_record_num(user_id=user_id, days=7)
-    num_month = get_user_problem_record_num(user_id=user_id, days=30)
-    return {'num_problems': {'day': num_day, 'week': num_week, 'month': num_month}}
+def get_day_week_monthly_num_problem(user_id, unique=True):
+    num_day = get_user_problem_record_num(user_id=user_id, days=1, unique=unique)
+    num_week = get_user_problem_record_num(user_id=user_id, days=7, unique=unique)
+    num_month = get_user_problem_record_num(user_id=user_id, days=30, unique=unique)
+    if unique:
+        rs = {'num_problems': {'day': num_day, 'week': num_week, 'month': num_month}}
+    else:
+        rs = {'num_problem_records': {'day': num_day, 'week': num_week, 'month': num_month}}
+    return rs
 
 
 def average_scores(user_id):
@@ -56,12 +62,15 @@ def avegrage_details(user_id):
 
 def get_stastics(user_id):
     rs = {}
-    problems = get_day_week_monthly_num(user_id)
+    problems = get_day_week_monthly_num_problem(user_id)
     rs.update(problems)
+    records = get_day_week_monthly_num_problem(user_id, unique=False)
+    rs.update(records)
     scores = average_scores(user_id)
     rs.update(scores)
     details = avegrage_details(user_id)
     rs.update(details)
+
     return rs
 
 
