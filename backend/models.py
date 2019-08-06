@@ -76,5 +76,5 @@ class RecordDetail(models.Model):
     category_id = models.IntegerField('句子相似度1,词汇生僻度2,句子可读性3,句子复杂度4', blank=False)
 
     def __str__(self):
-        return "problem %s written by %s" % (self.title, self.author)
-
+        return "user %s on problem %s at aspect %s" % (
+        self.problem_record.user_id.id, self.problem_record.problem_id.id, self.category_id)
