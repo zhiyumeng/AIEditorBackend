@@ -25,7 +25,7 @@ def get_day_week_monthly_num(user_id):
     num_day = get_user_problem_record_num(user_id=user_id, days=1)
     num_week = get_user_problem_record_num(user_id=user_id, days=7)
     num_month = get_user_problem_record_num(user_id=user_id, days=30)
-    return {'day': num_day, 'week': num_week, 'month': num_month}
+    return {'num_problems': {'day': num_day, 'week': num_week, 'month': num_month}}
 
 
 def average_scores(user_id):
@@ -34,7 +34,7 @@ def average_scores(user_id):
     num_85 = len(scores[[scores > 85]])
     num_70_85 = len(scores[(scores <= 85) & (scores > 70)])
     num_70 = len(scores[scores <= 70])
-    return {'85': num_85, '70_85': num_70_85, '70': num_70}
+    return {'num_scores': {'85': num_85, '70_85': num_70_85, '70': num_70}}
 
 
 def avegrage_details(user_id):
@@ -46,9 +46,23 @@ def avegrage_details(user_id):
             if category_id not in details:
                 details[category_id] = []
             details[category_id].append(detail.value)
-    for key in details.keys():
-        details[key] = {'name': id_category[key], 'average_value': str(np.average(details[key])), 'id': key}
-    return details
+    rs = []
+    for key in range(1, 6):
+        # details[key] = {'name': id_category[key], 'average_value': str(round(np.average(details[key]), 2)), 'id': key}
+        rs.append(str(round(np.average(details[key]), 2)))
+
+    return {'avegrage_details': rs}
+
+
+def get_stastics(user_id):
+    rs = {}
+    problems = get_day_week_monthly_num(user_id)
+    rs.update(problems)
+    scores = average_scores(user_id)
+    rs.update(scores)
+    details = avegrage_details(user_id)
+    rs.update(details)
+    return rs
 
 
 if __name__ == '__main__':

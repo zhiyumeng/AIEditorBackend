@@ -7,7 +7,7 @@ from ml_models.sentenceComplexity import sentenceComplex
 
 id_category = {
     1: '句子相似度',
-    2: '单词生僻性',
+    2: '单词常见性',
     3: '句子可读性',
     4: '句子复杂度',
     5: '语法正确性'
