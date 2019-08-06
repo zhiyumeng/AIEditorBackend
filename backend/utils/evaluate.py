@@ -4,6 +4,21 @@ from backend.models import Sentence, GoodAnswer, RecordDetail
 from ml_models.similarity import inferencePairsFromGraph
 from ml_models.sentenceComplexity import sentenceComplex
 
+id_category = {
+    1: '句子相似度',
+    2: '单词生僻性',
+    3: '句子可读性',
+    4: '句子复杂度',
+    5: '语法正确性'
+}
+id_description = {
+    1: '句子相似程度',
+    2: '单词数值越小，越生僻',
+    3: '句子可读程度',
+    4: '句子复杂程度',
+    5: '语法正确性'
+}
+
 
 def evaluate_sentence_wordscore(sentence):
     '''
@@ -22,14 +37,14 @@ def evaluate_sentence_wordscore(sentence):
     # https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000
     wordscore = words_score(sentence)
     wordscore = int(wordscore * 5)
-    wordscore_detail = {'id': 2, 'value': str(wordscore), 'name': '单词生僻性', 'description': '单词数值越小，越生僻'}
+    wordscore_detail = {'id': 2, 'value': str(wordscore), 'name': id_category[2], 'description': id_description[2]}
     return wordscore, wordscore_detail
 
 
 def evaluate_readbility(sentence):
     readable_score = fresScore(sentence)
     readable_score = int(readable_score / 20)
-    readable_detail = {'id': 3, 'value': str(readable_score), 'name': '句子可读性', 'description': '句子可读程度'}
+    readable_detail = {'id': 3, 'value': str(readable_score), 'name': id_category[3], 'description': id_description[3]}
     return readable_score, readable_detail
 
 
@@ -43,7 +58,8 @@ def evaluate_similarity(sentence, customer_answer):
 
     similarity_score = inferencePairsFromGraph(customer_answer, sentence)
     similarity_score = int(similarity_score * 5)
-    similarity_detail = {'id': 1, 'value': str(similarity_score), 'name': '句子相似度', 'description': '句子相似程度'}
+    similarity_detail = {'id': 1, 'value': str(similarity_score), 'name': id_category[1],
+                         'description': id_description[1]}
     return similarity_score, similarity_detail
 
 
@@ -76,7 +92,7 @@ def updateGoodAnswer(sentence_id, record):
 def evaluate_sentence_complexity(problem_sentence, customer_sentence):
     complex_score = sentenceComplex(problem_sentence, customer_sentence)
     complex_score = int(complex_score * 5)
-    complex_detail = {'id': 4, 'value': str(complex_score), 'name': '句子复杂度', 'description': '句子复杂程度'}
+    complex_detail = {'id': 4, 'value': str(complex_score), 'name': id_category[4], 'description': id_description[4]}
     return complex_score, complex_detail
 
 
@@ -87,3 +103,10 @@ def save_details(record_instance, details):
         category_id = detail['id']
         detail_instances.append(RecordDetail(category_id=category_id, value=value, problem_record=record_instance))
     RecordDetail.objects.bulk_create(detail_instances)
+
+
+def change_record_detail_to_dict(record_detail):
+    #  readable_detail = {'id': 3, 'value': str(readable_score), 'name': id_category[3], 'description': id_description[3]}
+    id = record_detail.category_id
+    detail = {'id': id, 'value': str(record_detail.value), 'name': id_category[id], 'description': id_description[id]}
+    return detail

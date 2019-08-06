@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.core import serializers
-from backend.utils.evaluate import evaluate_sentence_total, updateGoodAnswer, save_details
+from backend.utils.evaluate import evaluate_sentence_total, updateGoodAnswer, save_details, change_record_detail_to_dict
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
@@ -203,6 +203,9 @@ def get_good_answers(request, problem_id):
 
 # 根据用户id和题号返回所有该用户在该题下的所有答案
 def get_history_answers(request, user_id, problem_id):
-    query_set = ProblemRecord.objects.filter(user_id=user_id, problem_id=problem_id).values('answer')
-    answers = [q['answer'] for q in query_set]
-    return JsonResponse({'answers': answers})
+    query_set = ProblemRecord.objects.filter(user_id=user_id, problem_id=problem_id)
+    rs = {}
+    for record in query_set:
+        details = [change_record_detail_to_dict(record_detail) for record_detail in record.recorddetail_set.all()]
+        rs[record.id] = {'answer': record.answer, 'details': details, 'record_id': record.id}
+    return JsonResponse(rs)
