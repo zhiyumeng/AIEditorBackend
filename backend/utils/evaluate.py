@@ -28,7 +28,7 @@ def evaluate_sentence_wordscore(sentence):
 
 def evaluate_readbility(sentence):
     readable_score = fresScore(sentence)
-    readable_score = 3
+    readable_score = int(readable_score / 20)
     readable_detail = {'id': 3, 'value': str(readable_score), 'name': '句子可读性', 'description': '句子可读程度'}
     return readable_score, readable_detail
 
