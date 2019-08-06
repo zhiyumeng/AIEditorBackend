@@ -1,4 +1,5 @@
 from django.db import models
+import django.utils.timezone as timezone
 
 # Create your models here.
 
@@ -39,6 +40,7 @@ class User(models.Model):
 
 
 class ProblemRecord(models.Model):
+    add_date = models.DateTimeField('save time', default=timezone.now)
     id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(to="User", to_field="id", on_delete=models.CASCADE)
     problem_id = models.ForeignKey(to="Sentence", to_field="id", on_delete=models.CASCADE)
@@ -77,4 +79,4 @@ class RecordDetail(models.Model):
 
     def __str__(self):
         return "user %s on problem %s at aspect %s" % (
-        self.problem_record.user_id.id, self.problem_record.problem_id.id, self.category_id)
+            self.problem_record.user_id.id, self.problem_record.problem_id.id, self.category_id)
