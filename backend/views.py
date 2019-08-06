@@ -200,4 +200,4 @@ def get_good_answers(request, problem_id):
 def get_history_answers(request, user_id, problem_id):
     query_set = ProblemRecord.objects.filter(user_id=user_id, problem_id=problem_id).values('answer')
     answers = [q['answer'] for q in query_set]
-    return answers
+    return JsonResponse({'answers': answers})
