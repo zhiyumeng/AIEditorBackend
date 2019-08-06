@@ -74,3 +74,7 @@ class RecordDetail(models.Model):
     problem_record = models.ForeignKey(to='ProblemRecord', to_field='id', on_delete=models.CASCADE)
     value = models.FloatField('value', blank=False)
     category_id = models.IntegerField('句子相似度1,词汇生僻度2,句子可读性3,句子复杂度4', blank=False)
+
+    def __str__(self):
+        return "problem %s written by %s" % (self.title, self.author)
+
