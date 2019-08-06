@@ -41,10 +41,11 @@ def avegrage_details(user_id):
     records = ProblemRecord.objects.filter(user_id=user_id)
     details = {}
     for record in records:
-        category_id = record.category_id
-        if category_id not in details:
-            details[category_id] = []
-        details[category_id].append(record.value)
+        for detail in record.recorddetail_set.all():
+            category_id = detail.category_id
+            if category_id not in details:
+                details[category_id] = []
+            details[category_id].append(detail.value)
     for key in details.keys():
         details[key] = {'name': id_category[key], 'average_value': str(np.average(details[key])), 'id': key}
     return details
