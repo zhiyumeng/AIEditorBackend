@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import language_check
-lan_tool = language_check.("en-US")
+lan_tool = language_check.LanguageTool("en-US")
 
 def sentence_correction(sentence):
     '''
