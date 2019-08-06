@@ -114,8 +114,14 @@ def change_record_detail_to_dict(record_detail):
     return detail
 
 
+from numpy import ceil
+
+
 def sentence_grammer_score(sentence):
-    correction_score = sentence_correction(sentence)
+    correction_score = sentence_correction(sentence)['error_no']
+    correction_score = 5 - ceil(correction_score / 2)
+    if correction_score <= 0:
+        correction_score = 1
     correction_detail = {'id': 5, 'value': str(correction_score), 'name': id_category[5],
                          'description': id_description[5]}
     return correction_score, correction_detail
