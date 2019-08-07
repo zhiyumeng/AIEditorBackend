@@ -1,5 +1,5 @@
 uwsgi启动命令:
-uwsgi --socket /data/react1/AiEditor/backend1.sock --wsgi-file AiEditor/wsgi.py --chmod-socket=777
+screen uwsgi --socket /data/react1/AiEditor/backend1.sock --wsgi-file AiEditor/wsgi.py --chmod-socket=777
 nginx重启命令:
  sudo nginx -s reload
  ssh连接远程主机
