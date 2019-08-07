@@ -1,5 +1,5 @@
 uwsgi启动命令:
- uwsgi --socket :8083 --module AiEditor.wsgi  --py-autoreload=1
+uwsgi --socket /data/react1/AiEditor/backend.sock --wsgi-file test-uwsgi.py
 nginx重启命令:
  sudo nginx -s reload
  ssh连接远程主机
