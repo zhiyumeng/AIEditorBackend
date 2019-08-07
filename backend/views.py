@@ -222,7 +222,7 @@ def get_history_answers_by_problem(request, user_id, problem_id):
 def get_history_answers_by_page(request, user_id, page_index):
     range_start = (page_index - 1) * 6
     range_end = page_index * 6
-    query_set = ProblemRecord.objects.filter(user_id=user_id).order_by('-id')[range_start:range_end]
+    query_set = ProblemRecord.objects.filter(user_id=user_id).order_by('-id')
     problem_ids = [record.problem_id.id for record in query_set]
     problem_id_set = list(set(problem_ids))
     problem_id_set.sort(key=problem_ids.index)
