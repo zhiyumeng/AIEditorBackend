@@ -195,7 +195,7 @@ def get_good_answers(request, problem_id):
     scores = [str(dic['record_id__score']) for dic in rs]
     rs_dict = {
         'queID': problem_id,
-        'excAns_scores': zip(scores, answers)
+        'excAns_scores': list(zip(scores, answers))
     }
     return JsonResponse(rs_dict)
 
