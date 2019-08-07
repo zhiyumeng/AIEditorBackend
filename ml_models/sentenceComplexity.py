@@ -25,12 +25,13 @@ def sentenceSim(sentence1, sentence2):
 
 
 # 基于句法分析树判断句式结构复杂度，返回复杂度百分比0-1
-def sentenceComplex(sentence1, sentence2):
-    print("Constituency result(complex)")
+#基于句法分析树判断句式结构复杂度，返回复杂度百分比0-1
+def sentenceComplex(sentence1,sentence2):
+#    print("Constituency result(complex)")
     tree1 = nlp.parse(sentence1)
     tree2 = nlp.parse(sentence2)
-    print(tree1)
-    print(tree2)
+#    print(tree1)
+#    print(tree2)
     tree1 = tree1.split('\n ')
     tree2 = tree2.split("\n ")
     result1 = 0
@@ -39,19 +40,21 @@ def sentenceComplex(sentence1, sentence2):
         for tmp in theight:
             if (tmp == '('):
                 tcount1 += 1
-        result1 = max(result1, tcount1)
+        result1 = max(result1,tcount1)
     result2 = 0
     for theight in tree2:
         tcount2 = 0
         for tmp in theight:
             if (tmp == '('):
                 tcount2 += 1
-        result2 = max(result2, tcount2)
-    print(float(result2) / (result1))
-    ans = abs(result2 - result1) / min(result1, result2)
+        result2 = max(result2,tcount2)
+#    print(float(result2))
+#    ans =abs(result2-result1)/min(result1,result2)
+    ans = result2 / result1
     if ans > 1:
         return 1
-    return ans
+    else:
+        return ans
 
 
 # 用于测试
