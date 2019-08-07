@@ -202,15 +202,15 @@ def get_good_answers(request, problem_id):
 
 
 # 根据用户id和题号返回所有该用户在该题下的所有答案
-def get_history_answers(request, user_id, problem_id):
-    query_set = ProblemRecord.objects.filter(user_id=user_id, problem_id=problem_id).order_by('-id')[:3]
+def get_history_answers_by_problem(request, user_id, problem_id):
+    query_set = ProblemRecord.objects.filter(user_id=user_id, problem_id=problem_id).order_by('-id')
     rs_list = []
     for record in query_set:
-        # details = [change_record_detail_to_dict(record_detail) for record_detail in record.recorddetail_set.all()]
+        details = [change_record_detail_to_dict(record_detail) for record_detail in record.recorddetail_set.all()]
         instance_rs = {'queID': record.problem_id.id,
                        'record_id': record.id,
                        'rate': str(record.score),
-                       #            'detail': details,
+                       'detail': details,
                        'customer_answer': record.answer
                        }
         rs_list.append(instance_rs)
@@ -236,6 +236,7 @@ def get_history_answers_by_page(request, user_id, page_index):
         rs_list.append(instance_rs)
 
     return JsonResponse({'rs': rs_list})
+
 
 
 # 获取数据统计
