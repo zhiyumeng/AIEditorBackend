@@ -84,7 +84,7 @@ def get_stastics_by_list(user_id):
     rs.append(details['avegrage_details'])
     #分数数据
     scores = average_scores(user_id)['num_scores']
-    score_list = [scores['mean_scores', scores['85'], scores['70_85'], scores['70']]]
+    score_list = [scores['mean_scores'], scores['85'], scores['70_85'], scores['70']]
     rs.append(score_list)
     #做题次数
     records = get_day_week_monthly_num_problem(user_id, unique=False)['num_problem_records']
