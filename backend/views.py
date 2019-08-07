@@ -12,6 +12,7 @@ from ml_models.similarity import inferencePairsFromGraph
 from backend.utils.stastics import get_stastics, get_stastics_by_list
 import json
 
+from numpy import ceil
 
 def backend_view(request):
     return JsonResponse({'info': "Hello, You're at the backend view."})
@@ -234,7 +235,7 @@ def get_history_answers_by_page(request, user_id, page_index):
         problem_rs['history'] = [(q.answer, q.score) for q in record_query_rs]
         rs.append(problem_rs)
 
-    return JsonResponse({'rs': rs})
+    return JsonResponse({'rs': rs, 'page_number': ceil(len(problem_id_set) / 6)})
 
 
 # 获取数据统计
