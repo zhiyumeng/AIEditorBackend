@@ -10,13 +10,16 @@ tz = timezone.get_current_timezone()
 
 # 获取用户当天的题目数量
 def get_user_problem_record_num(user_id, start=None, end=None, days=None, unique=True):
-    if end is None:
-        end = datetime.datetime.now().astimezone(tz=tz)
-    if start is None:
-        start = datetime.date.today() + datetime.timedelta(days=-days)
+    if days is None:
+        query_rs = ProblemRecord.objects.filter(user_id=user_id).values('problem_id')
+    else:
+        if end is None:
+            end = datetime.datetime.now().astimezone(tz=tz)
+        if start is None:
+            start = datetime.date.today() + datetime.timedelta(days=-days)
         start = datetime.datetime(start.year, start.month, start.day, 0, 0, 0).astimezone(tz=tz)
-    print(start, '=====>', end)
-    query_rs = ProblemRecord.objects.filter(user_id=user_id, add_date__range=(start, end)).values('problem_id')
+        print(start, '=====>', end)
+        query_rs = ProblemRecord.objects.filter(user_id=user_id, add_date__range=(start, end)).values('problem_id')
     ids = [q['problem_id'] for q in query_rs]
     if unique:
         ids = set(ids)
@@ -27,7 +30,7 @@ def get_day_week_monthly_num_problem(user_id, unique=True):
     num_day = get_user_problem_record_num(user_id=user_id, days=1, unique=unique)
     num_week = get_user_problem_record_num(user_id=user_id, days=7, unique=unique)
     num_month = get_user_problem_record_num(user_id=user_id, days=30, unique=unique)
-    num_all = get_user_problem_record_num(user_id=user_id, days=900000, unique=unique)
+    num_all = get_user_problem_record_num(user_id=user_id, days=None, unique=unique)
     if unique:
         rs = {'num_problems': {'day': num_day, 'week': num_week, 'month': num_month, 'all': num_all}}
 
@@ -79,18 +82,18 @@ def get_stastics(user_id):
 
 def get_stastics_by_list(user_id):
     rs = []
-    #各指标数据
+    # 各指标数据
     details = avegrage_details(user_id)
     rs.append(details['avegrage_details'])
-    #分数数据
+    # 分数数据
     scores = average_scores(user_id)['num_scores']
     score_list = [scores['mean_scores'], scores['85'], scores['70_85'], scores['70']]
     rs.append(score_list)
-    #做题次数
+    # 做题次数
     records = get_day_week_monthly_num_problem(user_id, unique=False)['num_problem_records']
     record_list = [records['all'], records['day'], records['week'], records['month']]
     rs.append(record_list)
-    #题目数量
+    # 题目数量
     problems = get_day_week_monthly_num_problem(user_id)['num_problems']
     problem_list = [problems['all'], problems['day'], problems['week'], problems['month']]
     rs.append(problem_list)
