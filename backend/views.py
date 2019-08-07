@@ -195,8 +195,7 @@ def get_good_answers(request, problem_id):
     scores = [str(dic['record_id__score']) for dic in rs]
     rs_dict = {
         'queID': problem_id,
-        'excAns': answers,
-        'scores': scores
+        'excAns_scores': zip(scores, answers)
     }
     return JsonResponse(rs_dict)
 
@@ -236,7 +235,6 @@ def get_history_answers_by_page(request, user_id, page_index):
         rs_list.append(instance_rs)
 
     return JsonResponse({'rs': rs_list})
-
 
 
 # 获取数据统计

@@ -27,10 +27,11 @@ def get_day_week_monthly_num_problem(user_id, unique=True):
     num_day = get_user_problem_record_num(user_id=user_id, days=1, unique=unique)
     num_week = get_user_problem_record_num(user_id=user_id, days=7, unique=unique)
     num_month = get_user_problem_record_num(user_id=user_id, days=30, unique=unique)
+    num_all = get_user_problem_record_num(user_id=user_id, days=900000, unique=unique)
     if unique:
-        rs = {'num_problems': {'day': num_day, 'week': num_week, 'month': num_month}}
+        rs = {'num_problems': {'day': num_day, 'week': num_week, 'month': num_month, 'all': num_all}}
     else:
-        rs = {'num_problem_records': {'day': num_day, 'week': num_week, 'month': num_month}}
+        rs = {'num_problem_records': {'day': num_day, 'week': num_week, 'month': num_month, 'all': num_all}}
     return rs
 
 
