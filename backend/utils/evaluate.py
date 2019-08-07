@@ -72,7 +72,7 @@ def evaluate_similarity(sentence, customer_answer):
     :return:
     '''
 
-    similarity_score = inferencePairsFromGraph(customer_answer, sentence)
+    similarity_score_float = inferencePairsFromGraph(customer_answer, sentence)
 
     def get_label(num):
         bins = [-100, 0.2, 0.4, 0.5, 0.6, 0.8, 100]
@@ -80,18 +80,18 @@ def evaluate_similarity(sentence, customer_answer):
             if bins[i] <= num < bins[i + 1]:
                 return i
 
-    similarity_score = get_label(similarity_score)
+    similarity_score = get_label(similarity_score_float)
 
     similarity_detail = {'id': 1, 'value': str(similarity_score), 'name': id_category[1],
                          'description': id_description[1]}
 
-    return similarity_score, similarity_detail
+    return similarity_score, similarity_detail, similarity_score_float
 
 
 # 从各个指标评价句子
 def evaluate_sentence_total(sentence, customer_answer):
     wordscore, wordscore_detail = evaluate_sentence_wordscore(customer_answer)
-    similarity_score, similarity_detail = evaluate_similarity(sentence, customer_answer)
+    similarity_score, similarity_detail, similarity_score_float = evaluate_similarity(sentence, customer_answer)
     readable_score, readable_detail = evaluate_readbility(customer_answer)
     complex_score, complex_detail = evaluate_sentence_complexity(sentence, customer_answer)
     correction_score, correction_detail = sentence_grammer_score(customer_answer)
