@@ -95,7 +95,9 @@ def evaluate_sentence_total(sentence, customer_answer):
     readable_score, readable_detail = evaluate_readbility(customer_answer)
     complex_score, complex_detail = evaluate_sentence_complexity(sentence, customer_answer)
     correction_score, correction_detail = sentence_grammer_score(customer_answer)
-    total_score = wordscore + similarity_score + readable_score + complex_score + correction_score
+    # 计算总分
+    total_score = ceil(
+        wordscore * 1.5 + similarity_score_float * 70 + readable_score * 1.5 + complex_score + correction_score * 2)
     return total_score, [wordscore_detail, similarity_detail, readable_detail, complex_detail, correction_detail]
 
 
