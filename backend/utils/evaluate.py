@@ -37,14 +37,29 @@ def evaluate_sentence_wordscore(sentence):
     # top 5000 English words were downloaded from
     # https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000
     wordscore = words_score(sentence)
-    wordscore = int(wordscore * 5)
+
+    def get_label(num):
+        bins = [-100, 0.1, 0.2, 0.4, 0.6, 0.7, 100]
+        for i in range(0, 6):
+            if bins[i] <= num < bins[i + 1]:
+                return i
+
+    wordscore = get_label(wordscore)
     wordscore_detail = {'id': 2, 'value': str(wordscore), 'name': id_category[2], 'description': id_description[2]}
     return wordscore, wordscore_detail
 
 
 def evaluate_readbility(sentence):
     readable_score = fresScore(sentence)
-    readable_score = int(readable_score / 20)
+
+    def get_label(num):
+        bins = [-1e4, 30, 50, 60, 70, 80, 1e4]
+        for i in range(0, 6):
+            if bins[i] <= num < bins[i + 1]:
+                return i
+
+    readable_score = get_label(readable_score)
+
     readable_detail = {'id': 3, 'value': str(readable_score), 'name': id_category[3], 'description': id_description[3]}
     return readable_score, readable_detail
 
@@ -58,9 +73,18 @@ def evaluate_similarity(sentence, customer_answer):
     '''
 
     similarity_score = inferencePairsFromGraph(customer_answer, sentence)
-    similarity_score = int(similarity_score * 5)
+
+    def get_label(num):
+        bins = [-100, 0.2, 0.4, 0.5, 0.6, 0.8, 100]
+        for i in range(0, 6):
+            if bins[i] <= num < bins[i + 1]:
+                return i
+
+    similarity_score = get_label(similarity_score)
+
     similarity_detail = {'id': 1, 'value': str(similarity_score), 'name': id_category[1],
                          'description': id_description[1]}
+
     return similarity_score, similarity_detail
 
 
@@ -93,7 +117,15 @@ def updateGoodAnswer(sentence_id, record):
 
 def evaluate_sentence_complexity(problem_sentence, customer_sentence):
     complex_score = sentenceComplex(problem_sentence, customer_sentence)
-    complex_score = int(complex_score * 5)
+
+    def get_label(num):
+        bins = [-100, 0.2, 0.4, 0.6, 0.8, 0.999999, 100]
+        for i in range(0, 6):
+            if bins[i] <= num < bins[i + 1]:
+                return i
+
+    complex_score = get_label(complex_score)
+
     complex_detail = {'id': 4, 'value': str(complex_score), 'name': id_category[4], 'description': id_description[4]}
     return complex_score, complex_detail
 
@@ -119,9 +151,10 @@ from numpy import ceil
 
 def sentence_grammer_score(sentence):
     correction_score = sentence_correction(sentence)['error_no']
-    correction_score = 5 - ceil(correction_score / 2)
+    correction_score = 5 - correction_score
     if correction_score <= 0:
-        correction_score = 1
+        correction_score = 0
+
     correction_detail = {'id': 5, 'value': str(correction_score), 'name': id_category[5],
                          'description': id_description[5]}
     return correction_score, correction_detail
