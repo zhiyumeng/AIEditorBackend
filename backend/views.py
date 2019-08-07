@@ -190,7 +190,8 @@ def predict(request):
 
 
 def get_good_answers(request, problem_id):
-    rs = GoodAnswer.objects.filter(record_id__problem_id__id=1).values('record_id__answer', 'record_id__score')[:3]
+    rs = GoodAnswer.objects.filter(record_id__problem_id__id=problem_id).values('record_id__answer',
+                                                                                'record_id__score')[:3]
     answers = [dic['record_id__answer'] for dic in rs]
     scores = [str(dic['record_id__score']) for dic in rs]
     rs_dict = {
