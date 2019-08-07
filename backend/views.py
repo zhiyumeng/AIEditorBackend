@@ -220,7 +220,7 @@ def get_history_answers_by_problem(request, user_id, problem_id):
 
 # 返回用户的历史回答，分页
 def get_history_answers_by_page(request, user_id, page_index):
-    range_start = (page_index - 1) * 6 + 1
+    range_start = (page_index - 1) * 6
     range_end = page_index * 6
     query_set = ProblemRecord.objects.filter(user_id=user_id).order_by('-id')[range_start:range_end]
     rs = {}
@@ -231,8 +231,9 @@ def get_history_answers_by_page(request, user_id, page_index):
         rs[key].append((record.answer, str(record.score)))
     rs_list = []
     for key in rs.keys():
-        sentence = Sentence.objects.filter(id=key)[0].sentence
-        rs_list.append({'queID': key, 'history': rs[key], 'problem': sentence})
+        for hist in rs[key][:3]:
+            sentence = Sentence.objects.filter(id=key)[0].sentence
+            rs_list.append({'queID': key, 'history': hist, 'problem': sentence})
     return JsonResponse({'rs': rs_list})
 
 
