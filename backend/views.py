@@ -223,18 +223,18 @@ def get_history_answers_by_page(request, user_id, page_index):
     range_start = (page_index - 1) * 6
     range_end = page_index * 6
     query_set = ProblemRecord.objects.filter(user_id=user_id).order_by('-id')[range_start:range_end]
-    rs = {}
-    for record in query_set:
-        key = record.problem_id.id
-        if key not in rs:
-            rs[key] = []
-        rs[key].append((record.answer, str(record.score)))
-    rs_list = []
-    for key in rs.keys():
-        for hist in rs[key][:3]:
-            sentence = Sentence.objects.filter(id=key)[0].sentence
-            rs_list.append({'queID': key, 'history': hist, 'problem': sentence})
-    return JsonResponse({'rs': rs_list})
+    problem_ids = [record.problem_id.id for record in query_set]
+    problem_id_set = list(set(problem_ids))
+    problem_id_set.sort(key=problem_ids.index)
+    rs = []
+    for pid in problem_id_set[range_start:range_end]:
+        sentence = Sentence.objects.filter(id=pid)[0].sentence
+        problem_rs = {'queID': pid, 'problem': sentence}
+        record_query_rs = ProblemRecord.objects.filter(problem_id__id=pid, user_id=user_id).order_by('-score')[:3]
+        problem_rs['history'] = [(q.answer, q.score) for q in record_query_rs]
+        rs.append(problem_rs)
+
+    return JsonResponse({'rs': rs})
 
 
 # 获取数据统计
