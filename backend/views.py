@@ -231,7 +231,8 @@ def get_history_answers_by_page(request, user_id, page_index):
         rs[key].append((record.answer, str(record.score)))
     rs_list = []
     for key in rs.keys():
-        rs_list.append({'queID': key, 'history': rs[key]})
+        sentence = Sentence.objects.filter(id=key)[0].sentence
+        rs_list.append({'queID': key, 'history': rs[key], 'problem': sentence})
     return JsonResponse({'rs': rs_list})
 
 
