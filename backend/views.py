@@ -229,7 +229,10 @@ def get_history_answers_by_page(request, user_id, page_index):
         if key not in rs:
             rs[key] = []
         rs[key].append((record.answer, str(record.score)))
-    return JsonResponse(rs)
+    rs_list = []
+    for key in rs.keys():
+        rs_list.append({'queID': key, 'history': rs[key]})
+    return JsonResponse({'rs': rs_list})
 
 
 # 获取数据统计
