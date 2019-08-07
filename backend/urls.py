@@ -17,5 +17,7 @@ urlpatterns = [
     path('good_answers/<int:problem_id>', views.get_good_answers),
     path('history_answers/<int:user_id>/page/<int:page_index>', views.get_history_answers_by_page),
     path('statics/user/<int:user_id>', views.get_staistic_for_user),
-    path('history_answers/<int:user_id>/problem/<int:problem_id>', views.get_history_answers_by_problem)
+    path('history_answers/<int:user_id>/problem/<int:problem_id>', views.get_history_answers_by_problem),
+    # 获取同义词
+    path('syn/<str:word>', views.syn_words)
 ]

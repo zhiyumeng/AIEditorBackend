@@ -11,8 +11,10 @@ import random
 from ml_models.similarity import inferencePairsFromGraph
 from backend.utils.stastics import get_stastics, get_stastics_by_list
 import json
+from ml_models.synonym import get_syn_words
 
 from numpy import ceil
+
 
 def backend_view(request):
     return JsonResponse({'info': "Hello, You're at the backend view."})
@@ -242,3 +244,9 @@ def get_history_answers_by_page(request, user_id, page_index):
 def get_staistic_for_user(request, user_id):
     rs = get_stastics_by_list(user_id)
     return JsonResponse({'rs': rs})
+
+
+# 获取同义词
+def syn_words(request, word):
+    words = get_syn_words(word)
+    return JsonResponse({'syn': words})
