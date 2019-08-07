@@ -9,7 +9,7 @@ from django.template import loader
 from .models import User, Sentence, ProblemRecord, GoodAnswer
 import random
 from ml_models.similarity import inferencePairsFromGraph
-from backend.utils.stastics import get_stastics
+from backend.utils.stastics import get_stastics, get_stastics_by_list
 import json
 
 
@@ -239,5 +239,5 @@ def get_history_answers_by_page(request, user_id, page_index):
 
 # 获取数据统计
 def get_staistic_for_user(request, user_id):
-    rs = get_stastics(user_id)
-    return JsonResponse(rs)
+    rs = get_stastics_by_list(user_id)
+    return JsonResponse({'rs': rs})

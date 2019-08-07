@@ -30,6 +30,7 @@ def get_day_week_monthly_num_problem(user_id, unique=True):
     num_all = get_user_problem_record_num(user_id=user_id, days=900000, unique=unique)
     if unique:
         rs = {'num_problems': {'day': num_day, 'week': num_week, 'month': num_month, 'all': num_all}}
+
     else:
         rs = {'num_problem_records': {'day': num_day, 'week': num_week, 'month': num_month, 'all': num_all}}
     return rs
@@ -41,7 +42,8 @@ def average_scores(user_id):
     num_85 = len(scores[[scores > 85]])
     num_70_85 = len(scores[(scores <= 85) & (scores > 70)])
     num_70 = len(scores[scores <= 70])
-    return {'num_scores': {'85': num_85, '70_85': num_70_85, '70': num_70}}
+    mean_score = np.mean(scores)
+    return {'num_scores': {'mean_scores': mean_score, '85': num_85, '70_85': num_70_85, '70': num_70}}
 
 
 def avegrage_details(user_id):
@@ -71,6 +73,27 @@ def get_stastics(user_id):
     rs.update(scores)
     details = avegrage_details(user_id)
     rs.update(details)
+
+    return rs
+
+
+def get_stastics_by_list(user_id):
+    rs = []
+    #各指标数据
+    details = avegrage_details(user_id)
+    rs.append(details['avegrage_details'])
+    #分数数据
+    scores = average_scores(user_id)['num_scores']
+    score_list = [scores['mean_scores', scores['85'], scores['70_85'], scores['70']]]
+    rs.append(score_list)
+    #做题次数
+    records = get_day_week_monthly_num_problem(user_id, unique=False)['num_problem_records']
+    record_list = [records['all'], records['day'], records['week'], records['month']]
+    rs.append(record_list)
+    #题目数量
+    problems = get_day_week_monthly_num_problem(user_id)['num_problems']
+    problem_list = [problems['all'], problems['day'], problems['week'], problems['month']]
+    rs.append(problem_list)
 
     return rs
 
