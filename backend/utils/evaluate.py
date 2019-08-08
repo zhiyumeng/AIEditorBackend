@@ -36,6 +36,7 @@ def evaluate_sentence_wordscore(sentence):
      '''
     # top 5000 English words were downloaded from
     # https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000
+    sentence = sentence.lower()
     wordscore = words_score(sentence)
 
     def get_label(num):
