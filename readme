@@ -9,5 +9,6 @@ ssh ubuntu@52.80.106.20 -t 'cd /data/react1/AiEditor; bash --login'
 python manage.py runserver 0.0.0.0:8001
 执行测试:
 python manage.py test backend
+'Hello, I am a genius.'
 
 
