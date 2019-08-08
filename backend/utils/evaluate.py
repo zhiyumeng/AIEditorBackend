@@ -13,12 +13,13 @@ id_category = {
     5: '语法正确性'
 }
 id_description = {
-    1: '句子相似程度',
+    1: ['0分','1分','2分','3分'],
     2: '单词数值越小，越生僻',
     3: '句子可读程度',
     4: '句子复杂程度',
     5: '语法正确性'
 }
+
 
 
 def evaluate_sentence_wordscore(sentence):

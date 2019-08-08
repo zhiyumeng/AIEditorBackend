@@ -112,7 +112,7 @@ api: http://52.80.106.20:8000/backend/problem/length(012分别代表短中长)
     :return:
     '''
 
-    query_set = Sentence.objects.filter(sentence_type=problem_type)
+    query_set = Sentence.objects.filter(sentence_type=problem_type).order_by('id')
 
     if len(query_set) >= problem_index:
         sentence = query_set[problem_index]
@@ -230,10 +230,16 @@ def get_history_answers_by_page(request, user_id, page_index):
     problem_ids = [record.problem_id.id for record in query_set]
     problem_id_set = list(set(problem_ids))
     problem_id_set.sort(key=problem_ids.index)
+    sentences = {}
+    sentences['s'] = [a[0] for a in Sentence.objects.filter(sentence_type='s').order_by('id').values_list('id')]
+    sentences['m'] = [a[0] for a in Sentence.objects.filter(sentence_type='m').order_by('id').values_list('id')]
+    sentences['l'] = [a[0] for a in Sentence.objects.filter(sentence_type='l').order_by('id').values_list('id')]
+
     rs = []
     for pid in problem_id_set[range_start:range_end]:
-        sentence = Sentence.objects.filter(id=pid)[0].sentence
-        problem_rs = {'queID': pid, 'problem': sentence}
+        sentence = Sentence.objects.filter(id=pid)[0]
+        problem_rs = {'queID': pid, 'problem': sentence.sentence, 'problem_type': sentence.sentence_type,
+                      'problem_index': sentences[sentence.sentence_type].index(sentence.id)}
         record_query_rs = ProblemRecord.objects.filter(problem_id__id=pid, user_id=user_id).order_by('-score')[:3]
         problem_rs['history'] = [(q.answer, q.score) for q in record_query_rs]
         rs.append(problem_rs)
