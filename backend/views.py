@@ -2,7 +2,8 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.core import serializers
-from backend.utils.evaluate import evaluate_sentence_total, updateGoodAnswer, save_details, change_record_detail_to_dict
+from backend.utils.evaluate import evaluate_sentence_total, updateGoodAnswer, save_details, \
+    change_record_detail_to_dict, sentence_correction, sentenceComplex
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
@@ -45,7 +46,7 @@ def get_user_info(request, tel_number):
         response_dict = {'signed': True, 'userID': user.id, 'phoneNumber': user.tel_number}
     elif len(query_set) == 0:
         new_user = User.objects.create(tel_number=tel_number)
-        response_dict = {'signed': False, 'userID': new_user.id, 'phoneNumber': new_user.tel_number}
+        response_dict = {'signed': True, 'userID': new_user.id, 'phoneNumber': new_user.tel_number}
         print('id is :', new_user.id)
         new_user.save()
         print('id is :', new_user.id)

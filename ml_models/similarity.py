@@ -2,6 +2,7 @@ import pickle
 from pathlib import Path
 import os
 from tensorflow.contrib import predictor
+
 import sys
 AROOT_PATH = '/data/react1/last_version/'
 sys.path.append(AROOT_PATH+'bert')
@@ -97,6 +98,8 @@ def load_model():
 
 
 predict_fn, processor, tokenizer = load_model()
+
+
 
 
 def inferencePairsFromGraph(question1, question2):
