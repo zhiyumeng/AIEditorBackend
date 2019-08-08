@@ -41,16 +41,22 @@ def get_day_week_monthly_num_problem(user_id, unique=True):
 
 def average_scores(user_id):
     records = ProblemRecord.objects.filter(user_id=user_id)
-    scores = np.array([r.score for r in records])
-    num_85 = len(scores[[scores > 85]])
-    num_70_85 = len(scores[(scores <= 85) & (scores > 70)])
-    num_70 = len(scores[scores <= 70])
-    mean_score = np.mean(scores)
-    return {'num_scores': {'mean_scores': str(round(mean_score, 1)), '85': num_85, '70_85': num_70_85, '70': num_70}}
+
+    if records:
+        scores = np.array([r.score for r in records])
+        num_85 = len(scores[[scores > 85]])
+        num_70_85 = len(scores[(scores <= 85) & (scores > 70)])
+        num_70 = len(scores[scores <= 70])
+        mean_score = np.mean(scores)
+        rs = {'num_scores': {'mean_scores': str(round(mean_score, 1)), '85': num_85, '70_85': num_70_85, '70': num_70}}
+    else:
+        rs = {'num_scores': {'mean_scores': str(0), '85': 0, '70_85': 0, '70': 0}}
+    return rs
 
 
 def avegrage_details(user_id):
     records = ProblemRecord.objects.filter(user_id=user_id)
+
     details = {}
     for record in records:
         for detail in record.recorddetail_set.all():
@@ -61,7 +67,10 @@ def avegrage_details(user_id):
     rs = []
     for key in range(1, 6):
         # details[key] = {'name': id_category[key], 'average_value': str(round(np.average(details[key]), 2)), 'id': key}
-        rs.append(str(round(np.average(details[key]), 2)))
+        if key in details:
+            rs.append(str(round(np.average(details[key]), 2)))
+        else:
+            rs.append(str(0))
 
     return {'avegrage_details': rs}
 
