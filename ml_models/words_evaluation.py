@@ -66,6 +66,10 @@ def get_word_lemma(tag):
     return newWord
 
 
+wordTop5000 = pd.read_csv('ml_models/Oxford_5000.csv', sep='\t')
+wordTop5000List = list(wordTop5000['Word'].values)
+
+
 def sentenceScore(sentence):
     '''
     判断句子中单词的生僻性，
@@ -81,9 +85,11 @@ def sentenceScore(sentence):
     '''
     # top 5000 English words were downloaded from
     # https://www.oxfordlearnersdictionaries.com/wordlists/oxford3000-5000
-    wordTop5000 = pd.read_csv('ml_models/Oxford_5000.csv', sep='\t')
-    wordTop5000List = list(wordTop5000['Word'].values)
+
     score = 0.0
+    length = len(sentence.split())
+    if length <= 1:
+        length = 1
     newSentence = removePunctuation(sentence)
     tokens = word_tokenize(newSentence)
     tags = pos_tag(tokens)
@@ -91,7 +97,7 @@ def sentenceScore(sentence):
         word_lemma = get_word_lemma(tag)
         if word_lemma in wordTop5000List:
             score = score + 1
-    return (score / len(tokens))
+    return (score / length)
 
 
 if __name__ == '__main__':
