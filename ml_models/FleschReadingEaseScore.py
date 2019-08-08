@@ -85,8 +85,9 @@ def fresScore(sentence):
             punct = punct + 1
             continue
         total_syl = total_syl + cmusyl(sen[i].text)[0]
+
     score = 206.835 - 1.015 * ((len(sen) - punct) / len(sent_tokenize(sentence))) - 84.6 * (
-            total_syl / (len(sen) - punct))
+            total_syl / (len(sen)))
     # result = {'No. of sentences':len(sent_tokenize(sentence)),
     #         'No. of words':len(sen)-punct,
     #         'Average syllables per word':total_syl/(len(sen)-punct),
