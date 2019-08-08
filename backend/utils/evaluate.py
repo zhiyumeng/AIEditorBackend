@@ -99,7 +99,7 @@ def evaluate_sentence_total(sentence, customer_answer):
     # 计算总分
     total_score = ceil(
         wordscore * 1.5 + similarity_score_float * 70 + readable_score * 1.5 + complex_score + correction_score * 2)
-    return total_score, [wordscore_detail, similarity_detail, readable_detail, complex_detail, correction_detail]
+    return int(total_score), [wordscore_detail, similarity_detail, readable_detail, complex_detail, correction_detail]
 
 
 # 更新好答案
