@@ -145,7 +145,8 @@ def save_details(record_instance, details):
 def change_record_detail_to_dict(record_detail):
     #  readable_detail = {'id': 3, 'value': str(readable_score), 'name': id_category[3], 'description': id_description[3]}
     id = record_detail.category_id
-    detail = {'id': id, 'value': str(record_detail.value), 'name': id_category[id], 'description': id_description[id]}
+    detail = {'id': id, 'value': str(int(record_detail.value)), 'name': id_category[id],
+              'description': id_description[id]}
     return detail
 
 
