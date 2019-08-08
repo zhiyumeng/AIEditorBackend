@@ -50,7 +50,7 @@ def average_scores(user_id):
         mean_score = np.mean(scores)
         rs = {'num_scores': {'mean_scores': str(round(mean_score, 1)), '85': num_85, '70_85': num_70_85, '70': num_70}}
     else:
-        rs = {'num_scores': {'mean_scores': str(0), '85': 0, '70_85': 0, '70': 0}}
+        rs = {'num_scores': {'mean_scores': 0, '85': 0, '70_85': 0, '70': 0}}
     return rs
 
 
