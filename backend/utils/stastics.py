@@ -46,7 +46,7 @@ def average_scores(user_id):
     num_70_85 = len(scores[(scores <= 85) & (scores > 70)])
     num_70 = len(scores[scores <= 70])
     mean_score = np.mean(scores)
-    return {'num_scores': {'mean_scores': str(round(mean_score, 2)), '85': num_85, '70_85': num_70_85, '70': num_70}}
+    return {'num_scores': {'mean_scores': str(round(mean_score, 1)), '85': num_85, '70_85': num_70_85, '70': num_70}}
 
 
 def avegrage_details(user_id):
