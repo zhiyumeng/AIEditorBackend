@@ -237,7 +237,7 @@ def get_history_answers_by_page(request, user_id, page_index):
         problem_rs['history'] = [(q.answer, q.score) for q in record_query_rs]
         rs.append(problem_rs)
 
-    return JsonResponse({'rs': rs, 'page_number': ceil(len(problem_id_set) / 6)})
+    return JsonResponse({'rs': rs, 'page_number': int(ceil(len(problem_id_set) / 6))})
 
 
 # 获取数据统计
