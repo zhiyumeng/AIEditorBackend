@@ -13,8 +13,19 @@ from ml_models.similarity import inferencePairsFromGraph
 from backend.utils.stastics import get_stastics, get_stastics_by_list
 import json
 from ml_models.synonym import get_syn_words
-
+from ml_models.paraphraser import load_paraphraser
 from numpy import ceil
+
+paraphraser = load_paraphraser()
+
+
+#同义改写
+def get_paraphrase(request):
+    assert (request.method == 'POST')
+    info = json.loads(request.body)
+    print(info)
+    sentences = info['sentence']
+    return JsonResponse({'paraphrase': sentences})
 
 
 def backend_view(request):

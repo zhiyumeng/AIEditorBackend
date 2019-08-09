@@ -19,5 +19,8 @@ urlpatterns = [
     path('statics/user/<int:user_id>', views.get_staistic_for_user),
     path('history_answers/<int:user_id>/problem/<int:problem_id>', views.get_history_answers_by_problem),
     # 获取同义词
-    path('syn/<str:word>', views.syn_words)
+    path('syn/<str:word>', views.syn_words),
+    # 同义改写
+    path('paraphraser/', views.get_paraphrase)
+
 ]
