@@ -159,11 +159,11 @@ from numpy import ceil
 
 
 def sentence_grammer_score(sentence):
-    correction_score = sentence_correction(sentence)['error_no']
+    correction_score, errors = sentence_correction(sentence)
     correction_score = 5 - correction_score
     if correction_score <= 0:
         correction_score = 0
 
     correction_detail = {'id': 5, 'value': str(correction_score), 'name': id_category[5],
-                         'description': id_description[5][correction_score]}
+                         'description': id_description[5][correction_score], 'erros': errors}
     return correction_score, correction_detail
