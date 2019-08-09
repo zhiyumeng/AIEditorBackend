@@ -2,21 +2,20 @@ import pickle
 from pathlib import Path
 import os
 from tensorflow.contrib import predictor
-
+import requests
 import sys
+
 AROOT_PATH = '/data/react1/last_version/'
-sys.path.append(AROOT_PATH+'bert')
+sys.path.append(AROOT_PATH + 'bert')
 
-import run_classifier,tokenization
+import run_classifier, tokenization
 
-MODEL_PATH = '/data/saved_model'#'/home/fyyc/PycharmProjects/model_similarity/saved_model'
-
+MODEL_PATH = '/data/saved_model'  # '/home/fyyc/PycharmProjects/model_similarity/saved_model'
 
 MAX_SEQ_LENGTH = 200
 
 
 def get_processor_tokenizer():
-
     class QQPProcessor(run_classifier.DataProcessor):
         """Processor for the Quora Question pair data set."""
 
@@ -97,13 +96,33 @@ def load_model():
     return predict_fn, processor, tokenizer
 
 
-predict_fn, processor, tokenizer = load_model()
-
-
-
+#predict_fn, processor, tokenizer = load_model()
+#
+#
+# def inferencePairsFromGraph(question1, question2):
+#     print("inferencing..........")
+#     MAX_SEQ_LENGTH = 200
+#     sent_pairs = [(question1, question2)]
+#     print("sentence1: " + question1)
+#     print("sentence2: " + question2)
+#
+#     predict_examples = processor.get_predict_examples(sent_pairs)
+#     label_list = processor.get_labels()
+#     predict_features = run_classifier.convert_examples_to_features(predict_examples, label_list, MAX_SEQ_LENGTH,
+#                                                                    tokenizer)
+#     feature = predict_features[0]
+#     feature = {'input_ids': [feature.input_ids],
+#                'input_mask': [feature.input_mask],
+#                'segment_ids': [feature.segment_ids],
+#                'label_ids': [feature.label_id]}
+#
+#     result = predict_fn(feature)['probabilities'][0][1]
+#     print("Prediction :", result)
+#     return result
+processor, tokenizer = get_processor_tokenizer()
 
 def inferencePairsFromGraph(question1, question2):
-    print("inferencing..........")
+    print("inferencing by request tensorflow serving")
     MAX_SEQ_LENGTH = 200
     sent_pairs = [(question1, question2)]
     print("sentence1: " + question1)
@@ -112,14 +131,14 @@ def inferencePairsFromGraph(question1, question2):
     predict_examples = processor.get_predict_examples(sent_pairs)
     label_list = processor.get_labels()
     predict_features = run_classifier.convert_examples_to_features(predict_examples, label_list, MAX_SEQ_LENGTH,
-                                                    tokenizer)
+                                                                   tokenizer)
     feature = predict_features[0]
-    feature = {'input_ids': [feature.input_ids],
+    features = {'input_ids': [feature.input_ids],
                'input_mask': [feature.input_mask],
                'segment_ids': [feature.segment_ids],
                'label_ids': [feature.label_id]}
-
-    result = predict_fn(feature)['probabilities'][0][1]
+    response = requests.post(json={'inputs': features}, url='http://localhost:8502/v1/models/similarity:predict')
+    result = response.json()['outputs'][0][1]
     print("Prediction :", result)
     return result
 
