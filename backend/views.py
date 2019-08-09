@@ -25,7 +25,8 @@ def get_paraphrase(request):
     assert (request.method == 'POST')
     info = json.loads(request.body)
     print(info)
-    sentences = info['sentence']
+    sentence = info['sentence']
+    sentences = paraphraser(sentence)
     return JsonResponse({'paraphrase': sentences})
 
 
