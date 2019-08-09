@@ -4,7 +4,8 @@ from ml_models.FleschReadingEaseScore import fresScore
 from backend.models import Sentence, GoodAnswer, RecordDetail
 from ml_models.similarity import inferencePairsFromGraph
 from ml_models.sentenceComplexity import sentenceComplex
-#语义相似性，句法复杂性，语法准确性，词汇常见性，句子易读性
+
+# 语义相似性，句法复杂性，语法准确性，词汇常见性，句子易读性
 id_category = {
     1: '语义相似性',
     2: '词汇常见性',
@@ -16,7 +17,7 @@ id_description = {
     1: ['语义不相似', '语义不相似', '语义不相似', '语义基本相似', '语义相似', '语义非常相似'],
     2: ['句子所用词汇很生僻', '句子所用词汇生僻', '句子所用词汇生僻', '句子所用词汇常见', '句子所用词汇常见', '句子所用词汇很常见'],
     3: ['语句复杂难懂，适合研究生阅读', '语句复杂难懂，适合本科生阅读', '语句简明，语义易懂', '语句简明，语义易懂', '语句自然流畅，语义比较容易理解', '语句简洁流畅，语义非常容易理解'],
-    4: ['相比原句，句子成分间的依存关系很简单', '相比原句，句子成分间的依存关系很简单', '相比原句，句子成分间的依存关系简单', '相比原句，句子成分间的依存关系简单''相比原句，句子成分间的依存关系简单',
+    4: ['相比原句，句子成分间的依存关系很简单', '相比原句，句子成分间的依存关系很简单', '相比原句，句子成分间的依存关系简单', '相比原句，句子成分间的依存关系简单', '相比原句，句子成分间的依存关系简单',
         '相比原句，句子成分间的依存关系复杂'],
     5: ['有大量语法、拼写等错误', '语法、拼写等错误较多', '有少量语法、拼写等错误', '有少量语法、拼写等错误', '语法、拼写等错误极少', '没有语法、拼写等错误']
 }
@@ -47,7 +48,8 @@ def evaluate_sentence_wordscore(sentence):
                 return i
 
     wordscore = get_label(wordscore)
-    wordscore_detail = {'id': 2, 'value': str(wordscore), 'name': id_category[2], 'description': id_description[2][wordscore]}
+    wordscore_detail = {'id': 2, 'value': str(wordscore), 'name': id_category[2],
+                        'description': id_description[2][wordscore]}
     return wordscore, wordscore_detail
 
 
@@ -62,7 +64,8 @@ def evaluate_readbility(sentence):
 
     readable_score = get_label(readable_score)
 
-    readable_detail = {'id': 3, 'value': str(readable_score), 'name': id_category[3], 'description': id_description[3][readable_score]}
+    readable_detail = {'id': 3, 'value': str(readable_score), 'name': id_category[3],
+                       'description': id_description[3][readable_score]}
     return readable_score, readable_detail
 
 
@@ -130,7 +133,8 @@ def evaluate_sentence_complexity(problem_sentence, customer_sentence):
 
     complex_score = get_label(complex_score)
 
-    complex_detail = {'id': 4, 'value': str(complex_score), 'name': id_category[4], 'description': id_description[4][complex_score]}
+    complex_detail = {'id': 4, 'value': str(complex_score), 'name': id_category[4],
+                      'description': id_description[4][complex_score]}
     return complex_score, complex_detail
 
 
