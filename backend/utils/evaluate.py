@@ -4,13 +4,13 @@ from ml_models.FleschReadingEaseScore import fresScore
 from backend.models import Sentence, GoodAnswer, RecordDetail
 from ml_models.similarity import inferencePairsFromGraph
 from ml_models.sentenceComplexity import sentenceComplex
-
+#语义相似性，句法复杂性，语法准确性，词汇常见性，句子易读性
 id_category = {
-    1: '句子相似度',
-    2: '单词常见性',
-    3: '句子可读性',
-    4: '句子复杂度',
-    5: '语法正确性'
+    1: '语义相似性',
+    2: '词汇常见性',
+    3: '句子易读性',
+    4: '句法复杂性',
+    5: '语法准确性'
 }
 id_description = {
     1: ['语义不相似', '语义不相似', '语义不相似', '语义基本相似', '语义相似', '语义非常相似'],
