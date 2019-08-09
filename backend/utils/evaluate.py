@@ -132,7 +132,7 @@ def evaluate_sentence_complexity(problem_sentence, customer_sentence):
                 return i
 
     complex_score = get_label(complex_score)
-
+    print('complex_score:', complex_score)
     complex_detail = {'id': 4, 'value': str(complex_score), 'name': id_category[4],
                       'description': id_description[4][complex_score]}
     return complex_score, complex_detail
