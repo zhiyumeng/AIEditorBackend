@@ -20,6 +20,7 @@ paraphraser = load_paraphraser()
 
 
 #同义改写
+@csrf_exempt
 def get_paraphrase(request):
     assert (request.method == 'POST')
     info = json.loads(request.body)
