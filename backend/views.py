@@ -213,7 +213,7 @@ def get_history_answers_by_problem(request, user_id, problem_id):
         details = [change_record_detail_to_dict(record_detail) for record_detail in record.recorddetail_set.all()]
         instance_rs = {'queID': record.problem_id.id,
                        'record_id': record.id,
-                       'rate': str(record.score),
+                       'rate': str(int(record.score)),
                        'detail': details,
                        'customer_answer': record.answer
                        }
@@ -241,7 +241,7 @@ def get_history_answers_by_page(request, user_id, page_index):
         problem_rs = {'queID': pid, 'problem': sentence.sentence, 'problem_type': sentence.sentence_type,
                       'problem_index': sentences[sentence.sentence_type].index(sentence.id)}
         record_query_rs = ProblemRecord.objects.filter(problem_id__id=pid, user_id=user_id).order_by('-score')[:3]
-        problem_rs['history'] = [(q.answer, q.score) for q in record_query_rs]
+        problem_rs['history'] = [(q.answer, int(q.score)) for q in record_query_rs]
         rs.append(problem_rs)
 
     return JsonResponse({'rs': rs, 'page_number': int(ceil(len(problem_id_set) / 6))})
