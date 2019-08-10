@@ -1,7 +1,7 @@
 import pickle
 from pathlib import Path
 import os
-from tensorflow.contrib import predictor
+#from tensorflow.contrib import predictor todo:remove note
 import requests
 import sys
 
