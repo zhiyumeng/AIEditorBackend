@@ -9,6 +9,9 @@ from xkcd import get_syn
 import time
 
 
+def get_syn_words(word):
+    return get_syn(word)[0]
+
 
 if __name__ == '__main__':
     tic = time.time()
