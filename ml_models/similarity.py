@@ -1,14 +1,14 @@
 import pickle
 from pathlib import Path
 import os
-#from tensorflow.contrib import predictor todo:remove note
+from tensorflow.contrib import predictor
 import requests
 import sys
 
 AROOT_PATH = '/data/react1/last_version/'
 sys.path.append(AROOT_PATH + 'bert')
 
-#import run_classifier, tokenization todo:remove note
+import run_classifier, tokenization
 
 MODEL_PATH = '/data/saved_model'  # '/home/fyyc/PycharmProjects/model_similarity/saved_model'
 
@@ -119,7 +119,7 @@ def load_model():
 #     result = predict_fn(feature)['probabilities'][0][1]
 #     print("Prediction :", result)
 #     return result
-#processor, tokenizer = get_processor_tokenizer() todo:remove note
+processor, tokenizer = get_processor_tokenizer()
 
 def inferencePairsFromGraph(question1, question2):
     print("inferencing by request tensorflow serving")
@@ -141,30 +141,30 @@ def inferencePairsFromGraph(question1, question2):
     result = response.json()['outputs'][0][1]
     print("Prediction :", result)
     return result
-#
-# def inferencePairListFromGraph(question1s, question2s):
-#     print("inferencing by request tensorflow serving")
-#     MAX_SEQ_LENGTH = 200
-#     sent_pairs = list(zip(question1s,question2s))
-#
-#     predict_examples = processor.get_predict_examples(sent_pairs)
-#     label_list = processor.get_labels()
-#     predict_features = run_classifier.convert_examples_to_features(predict_examples, label_list, MAX_SEQ_LENGTH,
-#                                                                    tokenizer)
-#     features = {'input_ids': [],
-#                 'input_mask': [],
-#                 'segment_ids': [],
-#                 'label_ids': []}
-#     for feature in predict_features:
-#         features['input_ids'].append(feature.input_ids)
-#         features['input_mask'].append(feature.input_mask)
-#         features['segment_ids'].append(feature.segment_ids)
-#         features['label_ids'].append(feature.label_id)
-#
-#     response = requests.post(json={'inputs': features}, url='http://localhost:8502/v1/models/similarity:predict')
-#     result = response.json()
-#     print("Prediction :", result)
-#     return result
+
+def inferencePairListFromGraph(question1s, question2s):
+    print("inferencing by request tensorflow serving")
+    MAX_SEQ_LENGTH = 200
+    sent_pairs = list(zip(question1s,question2s))
+
+    predict_examples = processor.get_predict_examples(sent_pairs)
+    label_list = processor.get_labels()
+    predict_features = run_classifier.convert_examples_to_features(predict_examples, label_list, MAX_SEQ_LENGTH,
+                                                                   tokenizer)
+    features = {'input_ids': [],
+                'input_mask': [],
+                'segment_ids': [],
+                'label_ids': []}
+    for feature in predict_features:
+        features['input_ids'].append(feature.input_ids)
+        features['input_mask'].append(feature.input_mask)
+        features['segment_ids'].append(feature.segment_ids)
+        features['label_ids'].append(feature.label_id)
+
+    response = requests.post(json={'inputs': features}, url='http://localhost:8502/v1/models/similarity:predict')
+    result = response.json()
+    print("Prediction :", result)
+    return result
 
 
 if __name__ == '__main__':
@@ -173,4 +173,4 @@ if __name__ == '__main__':
     inferencePairsFromGraph(sent1, sent2)
     sents1 = ['dd s dss ds d', 'dssd dssd', 'sdds ds']
     sents2 = ['dd s dss ds d', 'dssd dssd', 'sdds ds']
-    #print(inferencePairListFromGraph(sents1,sents2))
+    print(inferencePairListFromGraph(sents1,sents2))
