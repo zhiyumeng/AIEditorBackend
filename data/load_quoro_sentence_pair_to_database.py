@@ -7,7 +7,7 @@ from backend.models import Sentence
 
 
 def load_csv():
-    df = pd.read_csv(r'data/sentence_pairs_web.csv')[['sent1', 'sent2', 'type']]
+    df = pd.read_csv(r'data/sentence_pairs_web.csv')[['sen1', 'sen2', 'type']]
     sentences = []
     for row in df.values:
         question1, question2, question_type = row
