@@ -2,7 +2,12 @@ import sys
 
 sys.path.append('/data/zly')
 
-from xkcd import get_syn
+
+# from xkcd import get_syn
+def get_syn(word):#todo:撤销此处
+    pass
+
+
 import time
 
 
