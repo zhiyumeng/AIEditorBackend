@@ -21,6 +21,8 @@ urlpatterns = [
     # 获取同义词
     path('syn/<str:word>', views.syn_words),
     # 同义改写
-    path('paraphraser/', views.get_paraphrase)
+    path('paraphraser/', views.get_paraphrase),
+    # 用户等级
+    path('userlevel/<int:user_id>', views.get_user_level_by_id)
 
 ]

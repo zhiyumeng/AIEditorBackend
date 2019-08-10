@@ -15,6 +15,7 @@ import json
 from ml_models.synonym import get_syn_words
 from ml_models.paraphraser import paraphraser
 from numpy import ceil
+from backend.utils.user_level import get_user_level
 
 
 # 同义改写
@@ -268,3 +269,8 @@ def get_staistic_for_user(request, user_id):
 def syn_words(request, word):
     words = get_syn_words(word)
     return JsonResponse({'syn': words})
+
+
+def get_user_level_by_id(request, user_id):
+    level, score = get_user_level(user_id)
+    return JsonResponse({'score': score, 'level': level})
