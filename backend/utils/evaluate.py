@@ -4,6 +4,7 @@ from ml_models.FleschReadingEaseScore import fresScore
 from backend.models import Sentence, GoodAnswer, RecordDetail
 from ml_models.similarity import inferencePairsFromGraph
 from ml_models.sentenceComplexity import sentenceComplex
+import json
 
 # 语义相似性，句法复杂性，语法准确性，词汇常见性，句子易读性
 id_category = {
@@ -143,7 +144,11 @@ def save_details(record_instance, details):
     for detail in details:
         value = float(detail['value'])
         category_id = detail['id']
-        detail_instances.append(RecordDetail(category_id=category_id, value=value, problem_record=record_instance))
+        if category_id == 5:
+            detail_instances.append(RecordDetail(category_id=category_id, value=value, problem_record=record_instance,
+                                                 info=json.dumps(detail['errors'])))
+        else:
+            detail_instances.append(RecordDetail(category_id=category_id, value=value, problem_record=record_instance))
     RecordDetail.objects.bulk_create(detail_instances)
 
 
@@ -152,6 +157,11 @@ def change_record_detail_to_dict(record_detail):
     id = record_detail.category_id
     detail = {'id': id, 'value': str(int(record_detail.value)), 'name': id_category[id],
               'description': id_description[id][int(record_detail.value)]}
+    if id == 5:
+        try:
+            detail['errors'] = json.loads(record_detail['info'])
+        except:
+            detail['errors'] = []
     return detail
 
 
