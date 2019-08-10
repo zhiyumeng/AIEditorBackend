@@ -3,16 +3,11 @@ import sys
 sys.path.append('/data/zly')
 
 
-# from xkcd import get_syn
-def get_syn(word):#todo:撤销此处
-    pass
+from xkcd import get_syn
 
 
 import time
 
-
-def get_syn_words(word):
-    return get_syn(word)[0]
 
 
 if __name__ == '__main__':
