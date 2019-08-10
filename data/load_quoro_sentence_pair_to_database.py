@@ -8,7 +8,7 @@ from backend.models import Sentence
 
 
 def load_csv():
-    df = pd.read_csv(r'/data/wangshuai/AiEditor/data/new_quora.csv')[['question1','question2','type']]
+    df = pd.read_csv(r'data/sentence_pairs_web.csv')[['question1','question2','type']]
     sentences = []
     for row in df.values:
         question1, question2, question_type = row
