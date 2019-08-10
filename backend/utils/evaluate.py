@@ -160,8 +160,9 @@ def change_record_detail_to_dict(record_detail):
     if id == 5:
         try:
             detail['erros'] = json.loads(record_detail['info'])
-        except:
+        except Exception as e:
             detail['erros'] = []
+            raise e
     return detail
 
 
