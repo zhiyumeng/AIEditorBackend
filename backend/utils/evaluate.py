@@ -5,6 +5,7 @@ from backend.models import Sentence, GoodAnswer, RecordDetail
 from ml_models.similarity import inferencePairsFromGraph
 from ml_models.sentenceComplexity import sentenceComplex
 import json
+from ml_models.mying_similarity import my_similarity_serving
 
 # 语义相似性，句法复杂性，语法准确性，词汇常见性，句子易读性
 id_category = {
@@ -78,7 +79,9 @@ def evaluate_similarity(sentence, customer_answer):
     :return:
     '''
 
-    similarity_score_float = inferencePairsFromGraph(customer_answer, sentence)
+    bert_similarity = inferencePairsFromGraph(customer_answer, sentence)
+    my_similarity = my_similarity_serving(customer_answer, sentence)
+    similarity_score_float = my_similarity * 0.5 + bert_similarity * 0.5
 
     def get_label(num):
         bins = [-100, 0.2, 0.4, 0.5, 0.6, 0.8, 100]

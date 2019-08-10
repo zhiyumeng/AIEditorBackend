@@ -18,6 +18,7 @@ from numpy import ceil
 from backend.utils.user_level import get_user_level
 
 
+
 # 同义改写
 @csrf_exempt
 def get_paraphrase(request):
