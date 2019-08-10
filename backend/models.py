@@ -76,7 +76,7 @@ class RecordDetail(models.Model):
     problem_record = models.ForeignKey(to='ProblemRecord', to_field='id', on_delete=models.CASCADE)
     value = models.FloatField('value', blank=False)
     category_id = models.IntegerField('句子相似度1,词汇生僻度2,句子可读性3,句子复杂度4', blank=False)
-    info = models.TextField('具体细节', blank=True)
+    #info = models.TextField('具体细节', blank=True)
 
     def __str__(self):
         return "user %s on problem %s at aspect %s" % (
