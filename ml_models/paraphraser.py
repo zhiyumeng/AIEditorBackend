@@ -3,7 +3,7 @@ import sys
 sys.path.append('/data/lxd/paraphraser')
 from inference import model_init, inference
 
-model = 0#model_init(0.5)#todo:remove note
+model = model_init(0.5)
 
 
 def paraphraser(sentence):
