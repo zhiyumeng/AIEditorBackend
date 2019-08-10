@@ -96,7 +96,7 @@ def load_model():
     return predict_fn, processor, tokenizer
 
 
-#predict_fn, processor, tokenizer = load_model()
+# predict_fn, processor, tokenizer = load_model()
 #
 #
 # def inferencePairsFromGraph(question1, question2):
@@ -121,6 +121,7 @@ def load_model():
 #     return result
 processor, tokenizer = get_processor_tokenizer()
 
+
 def inferencePairsFromGraph(question1, question2):
     print("inferencing by request tensorflow serving")
     MAX_SEQ_LENGTH = 200
@@ -134,18 +135,19 @@ def inferencePairsFromGraph(question1, question2):
                                                                    tokenizer)
     feature = predict_features[0]
     features = {'input_ids': [feature.input_ids],
-               'input_mask': [feature.input_mask],
-               'segment_ids': [feature.segment_ids],
-               'label_ids': [feature.label_id]}
+                'input_mask': [feature.input_mask],
+                'segment_ids': [feature.segment_ids],
+                'label_ids': [feature.label_id]}
     response = requests.post(json={'inputs': features}, url='http://localhost:8502/v1/models/bert_similarity:predict')
     result = response.json()['outputs'][0][1]
     print("Prediction :", result)
     return result
 
+
 def inferencePairListFromGraph(question1s, question2s):
     print("inferencing by request tensorflow serving")
     MAX_SEQ_LENGTH = 200
-    sent_pairs = list(zip(question1s,question2s))
+    sent_pairs = list(zip(question1s, question2s))
 
     predict_examples = processor.get_predict_examples(sent_pairs)
     label_list = processor.get_labels()
@@ -156,10 +158,10 @@ def inferencePairListFromGraph(question1s, question2s):
                 'segment_ids': [],
                 'label_ids': []}
     for feature in predict_features:
-        features['input_ids'].extend(feature.input_ids)
-        features['input_mask'].extend(feature.input_mask)
-        features['segment_ids'].extend(feature.segment_ids)
-        features['label_ids'].extend(feature.label_id)
+        features['input_ids'].append(feature.input_ids)
+        features['input_mask'].append(feature.input_mask)
+        features['segment_ids'].append(feature.segment_ids)
+        features['label_ids'].append(feature.label_id)
 
     response = requests.post(json={'inputs': features}, url='http://localhost:8502/v1/models/similarity:predict')
     result = response.json()
@@ -173,4 +175,4 @@ if __name__ == '__main__':
     inferencePairsFromGraph(sent1, sent2)
     sents1 = ['dd s dss ds d', 'dssd dssd', 'sdds ds']
     sents2 = ['dd s dss ds d', 'dssd dssd', 'sdds ds']
-    print(inferencePairListFromGraph(sents1,sents2))
+    print(inferencePairListFromGraph(sents1, sents2))
