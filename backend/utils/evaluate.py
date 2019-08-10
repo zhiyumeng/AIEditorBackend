@@ -146,7 +146,7 @@ def save_details(record_instance, details):
         category_id = detail['id']
         if category_id == 5:
             detail_instances.append(RecordDetail(category_id=category_id, value=value, problem_record=record_instance,
-                                                 info=json.dumps(detail['errors'])))
+                                                 info=json.dumps(detail['erros'])))
         else:
             detail_instances.append(RecordDetail(category_id=category_id, value=value, problem_record=record_instance))
     RecordDetail.objects.bulk_create(detail_instances)
@@ -159,9 +159,9 @@ def change_record_detail_to_dict(record_detail):
               'description': id_description[id][int(record_detail.value)]}
     if id == 5:
         try:
-            detail['errors'] = json.loads(record_detail['info'])
+            detail['erros'] = json.loads(record_detail['info'])
         except:
-            detail['errors'] = []
+            detail['erros'] = []
     return detail
 
 
