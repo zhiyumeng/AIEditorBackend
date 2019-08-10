@@ -8,7 +8,7 @@ import sys
 AROOT_PATH = '/data/react1/last_version/'
 sys.path.append(AROOT_PATH + 'bert')
 
-import run_classifier, tokenization
+#import run_classifier, tokenization todo:remove note
 
 MODEL_PATH = '/data/saved_model'  # '/home/fyyc/PycharmProjects/model_similarity/saved_model'
 
@@ -119,7 +119,7 @@ def load_model():
 #     result = predict_fn(feature)['probabilities'][0][1]
 #     print("Prediction :", result)
 #     return result
-processor, tokenizer = get_processor_tokenizer()
+#processor, tokenizer = get_processor_tokenizer() todo:remove note
 
 def inferencePairsFromGraph(question1, question2):
     print("inferencing by request tensorflow serving")
