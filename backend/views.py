@@ -3,11 +3,11 @@ from django.shortcuts import render
 # Create your views here.
 from django.core import serializers
 from backend.utils.evaluate import evaluate_sentence_total, updateGoodAnswer, save_details, \
-    change_record_detail_to_dict, sentence_correction, sentenceComplex
+    change_record_detail_to_dict, sentence_correction, sentenceComplex, get_errors
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
-from .models import User, Sentence, ProblemRecord, GoodAnswer
+from .models import User, Sentence, ProblemRecord, GoodAnswer, RecordDetail
 import random
 from ml_models.similarity import inferencePairsFromGraph
 from backend.utils.stastics import get_stastics, get_stastics_by_list
@@ -17,8 +17,7 @@ from ml_models.paraphraser import paraphraser
 from numpy import ceil
 
 
-
-#同义改写
+# 同义改写
 @csrf_exempt
 def get_paraphrase(request):
     assert (request.method == 'POST')

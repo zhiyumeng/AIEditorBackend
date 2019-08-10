@@ -177,3 +177,13 @@ def sentence_grammer_score(sentence):
     correction_detail = {'id': 5, 'value': str(correction_score), 'name': id_category[5],
                          'description': id_description[5][correction_score], 'erros': errors}
     return correction_score, correction_detail
+
+
+def get_errors(record_id):
+    try:
+        detail_correct = RecordDetail.objects.filter(problem_record=record_id, category_id=5)
+        error = detail_correct[0]['info']
+        error = json.loads(error)
+    except:
+        error = []
+    return error
