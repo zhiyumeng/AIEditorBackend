@@ -273,4 +273,4 @@ def syn_words(request, word):
 
 def get_user_level_by_id(request, user_id):
     level, score = get_user_level(user_id)
-    return JsonResponse({'score': score, 'level': level})
+    return JsonResponse({'score': int(score), 'level': int(level)})
