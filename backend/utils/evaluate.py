@@ -94,7 +94,7 @@ def evaluate_similarity(sentence, customer_answer):
     similarity_detail = {'id': 1, 'value': str(similarity_score), 'name': id_category[1],
                          'description': id_description[1][similarity_score]}
 
-    return similarity_score, similarity_detail, similarity_score_float
+    return similarity_score, similarity_detail, similarity_score * 2 / 10
 
 
 # 从各个指标评价句子

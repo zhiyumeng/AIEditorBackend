@@ -123,6 +123,7 @@ processor, tokenizer = get_processor_tokenizer()
 
 
 def inferencePairsFromGraph(question1, question2):
+
     print("inferencing by request tensorflow serving")
     MAX_SEQ_LENGTH = 200
     sent_pairs = [(question1, question2)]
