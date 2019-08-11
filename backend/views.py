@@ -13,7 +13,7 @@ from ml_models.similarity import inferencePairsFromGraph
 from backend.utils.stastics import get_stastics, get_stastics_by_list
 import json
 from ml_models.synonym import get_syn_words
-from ml_models.paraphraser import paraphraser
+from ml_models.paraphraser_full import paraphraser
 from numpy import ceil
 from backend.utils.user_level import get_user_level
 
