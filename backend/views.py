@@ -13,7 +13,7 @@ from ml_models.similarity import inferencePairsFromGraph
 from backend.utils.stastics import get_stastics, get_stastics_by_list
 import json
 from ml_models.synonym import get_syn_words
-from ml_models.paraphraser_full import paraphraser
+from ml_models.paraphraser_full import paraphraser_full
 from numpy import ceil
 from backend.utils.user_level import get_user_level
 
@@ -26,7 +26,7 @@ def get_paraphrase(request):
     info = json.loads(request.body)
     print(info)
     sentence = info['sentence']
-    sentences = paraphraser(sentence)
+    sentences = paraphraser_full(sentence)
     return JsonResponse({'paraphrase': sentences})
 
 

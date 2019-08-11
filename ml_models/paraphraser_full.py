@@ -6,7 +6,7 @@ from inference_ver2 import model_init, inference_full
 paraphraser, model = model_init(0.5)  ## restore model
 
 
-def paraphraser_(sentence):
+def paraphraser_full(sentence):
     return inference_full(model, sentence)
 
 
