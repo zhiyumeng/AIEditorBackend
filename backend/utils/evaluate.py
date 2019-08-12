@@ -6,6 +6,7 @@ from ml_models.similarity import inferencePairsFromGraph
 from ml_models.sentenceComplexity import sentenceComplex
 import json
 from ml_models.mying_similarity import my_similarity_serving
+from ml_models.ltt_similarity import bimpmPred as ltt_similarity_serving
 
 # 语义相似性，句法复杂性，语法准确性，词汇常见性，句子易读性
 id_category = {
@@ -71,6 +72,16 @@ def evaluate_readbility(sentence):
     return readable_score, readable_detail
 
 
+import numpy as np
+import math
+
+
+def model_ensemble_predict(x, Beta):
+    x = np.append(x, [1])
+    res = 1 / (1 + math.exp(-x.dot(Beta)))
+    return res
+
+
 def evaluate_similarity(sentence, customer_answer):
     '''
     句子相似程度
@@ -81,7 +92,13 @@ def evaluate_similarity(sentence, customer_answer):
 
     bert_similarity = inferencePairsFromGraph(customer_answer, sentence)
     my_similarity = my_similarity_serving(customer_answer, sentence)
-    similarity_score_float = my_similarity * 0.5 + bert_similarity * 0.5
+    ltt_similarity = ltt_similarity_serving(customer_answer, sentence)
+    # 1.5497187   0.63752652  2.23683518 -2.53611195
+    # ltt my cuiz bias
+    X = np.array([ltt_similarity, my_similarity, bert_similarity])
+    Beta = np.array([1.5497187, 0.63752652, 2.23683518, -2.53611195])
+    similarity_score_float = model_ensemble_predict(X, Beta)
+   # similarity_score_float = ltt_similarity * 1.5497187 + my_similarity * 0.63752652 + bert_similarity * 2.23683518 - 2.53611195
 
     def get_label(num):
         bins = [-100, 0.2, 0.4, 0.5, 0.6, 0.8, 100]
