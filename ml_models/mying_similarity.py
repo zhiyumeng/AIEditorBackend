@@ -109,7 +109,7 @@ def my_similarity_serving(sent1,sent2):
             "sent2": test_data_2.tolist() + test_data_1.tolist()
         }
     }
-    rs = requests.post(json=inputs, url='http://localhost:8510/v1/models/my_similarity:predict')
+    rs = requests.post(json=inputs, url='http://localhost:8510/v1/models/mymodels:predict')
     outputs = rs.json()['outputs']
     rs = np.mean(outputs)
     print(outputs)
