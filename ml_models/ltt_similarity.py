@@ -20,7 +20,7 @@ from model.utils import Quora
 import os
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-vectors = Vectors(name='glove.840B.300d.txt', cache=os.path.join(ltt_base_dir, '.vector_cache'))
+# vectors = Vectors(name='glove.840B.300d.txt', cache=os.path.join(ltt_base_dir, '.vector_cache'))
 use_char_emb = False
 model_path = os.path.join(ltt_base_dir, "saved_models/BIBPM_Quora_0.83.pt")
 
@@ -47,7 +47,7 @@ parser.add_argument('--num-perspective', default=20, type=int)
 parser.add_argument('--use-char-emb', default=False, action='store_true')
 parser.add_argument('--word-dim', default=300, type=int)
 
-parser.add_argument('--model-path', default="saved_models/BIBPM_Quora_0.83.pt")
+parser.add_argument('--model-path', default="/data/ltt/BIMPM/saved_models/BIBPM_Quora_0.83.pt")
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 parser.add_argument('--device', default=device, type=int)
 

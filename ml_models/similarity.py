@@ -139,7 +139,7 @@ def inferencePairsFromGraph(question1, question2):
                 'input_mask': [feature.input_mask],
                 'segment_ids': [feature.segment_ids],
                 'label_ids': [feature.label_id]}
-    response = requests.post(json={'inputs': features}, url='http://localhost:8502/v1/models/bert_similarity:predict')
+    response = requests.post(json={'inputs': features}, url='http://localhost:8511/v1/models/bert_similarity:predict')
     result = response.json()['outputs'][0][1]
     print("Prediction :", result)
     return result
@@ -164,7 +164,7 @@ def inferencePairListFromGraph(question1s, question2s):
         features['segment_ids'].append(feature.segment_ids)
         features['label_ids'].append(feature.label_id)
 
-    response = requests.post(json={'inputs': features}, url='http://localhost:8502/v1/models/bert_similarity:predict')
+    response = requests.post(json={'inputs': features}, url='http://localhost:8511/v1/models/bert_similarity:predict')
     result = response.json()['outputs']
     result = [r[1] for r in result]
     print("Prediction :", result)
