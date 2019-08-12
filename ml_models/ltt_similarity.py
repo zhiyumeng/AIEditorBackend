@@ -79,3 +79,4 @@ if __name__ == '__main__':
     sentence1 = input("> ")
     sentence2 = input("> ")
     sim = bimpmPred(sentence1, sentence2)
+    print(sim)
