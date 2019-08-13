@@ -4,7 +4,6 @@
 # @Project : suc_bimpm
 # @FileName: predict_inte.py
 # @Software: PyCharm
-import argparse
 import torch
 from torch import nn
 from torchtext.vocab import GloVe, Vectors
@@ -33,25 +32,30 @@ def load_model(args, data):
     return model
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--batch-size', default=64, type=int)
-parser.add_argument('--char-dim', default=20, type=int)
-parser.add_argument('--char-hidden-size', default=50, type=int)
-parser.add_argument('--dropout', default=0.1, type=float)
-parser.add_argument('--data-type', default='Quora', help='available: SNLI or Quora')
-parser.add_argument('--epoch', default=10, type=int)
-# parser.add_argument('--gpu', default=0, type=int)
-parser.add_argument('--hidden-size', default=100, type=int)
-parser.add_argument('--learning-rate', default=0.001, type=float)
-parser.add_argument('--num-perspective', default=20, type=int)
-parser.add_argument('--use-char-emb', default=False, action='store_true')
-parser.add_argument('--word-dim', default=300, type=int)
+# parser = argparse.ArgumentParser()
+# parser.add_argument('--batch-size', default=64, type=int)
+# parser.add_argument('--char-dim', default=20, type=int)
+# parser.add_argument('--char-hidden-size', default=50, type=int)
+# parser.add_argument('--dropout', default=0.1, type=float)
+# parser.add_argument('--data-type', default='Quora', help='available: SNLI or Quora')
+# parser.add_argument('--epoch', default=10, type=int)
+# # parser.add_argument('--gpu', default=0, type=int)
+# parser.add_argument('--hidden-size', default=100, type=int)
+# parser.add_argument('--learning-rate', default=0.001, type=float)
+# parser.add_argument('--num-perspective', default=20, type=int)
+# parser.add_argument('--use-char-emb', default=False, action='store_true')
+# parser.add_argument('--word-dim', default=300, type=int)
+#
+# parser.add_argument('--model-path', default="/data/ltt/BIMPM/saved_models/BIBPM_Quora_0.83.pt")
+# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# parser.add_argument('--device', default=device, type=int)
 
-parser.add_argument('--model-path', default="/data/ltt/BIMPM/saved_models/BIBPM_Quora_0.83.pt")
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-parser.add_argument('--device', default=device, type=int)
+# args = parser.parse_args()
 
-args = parser.parse_args()
+import pickle
+
+with open('ltt_args.pkl', 'rb') as f:
+    args = pickle.load(f)
 quora_data = Quora(args)
 vocab = quora_data.TEXT.vocab
 setattr(args, 'char_vocab_size', len(quora_data.char_vocab))
