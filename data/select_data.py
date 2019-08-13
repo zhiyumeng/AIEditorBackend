@@ -16,3 +16,8 @@ def stastics():
     rs = [evaluate_setence(sent1, sent2) for sent1, sent2 in df.values]
     rs = zip(*rs)
     return pd.DataFrame({'ltt': rs[0], 'my': rs[1], 'cz': rs[2]})
+
+
+if __name__ == '__main__':
+    df = stastics()
+    print(df.describe())
