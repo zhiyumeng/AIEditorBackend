@@ -32,6 +32,8 @@ def load_model(args, data):
     return model
 
 
+import pickle
+# import argparse
 # parser = argparse.ArgumentParser()
 # parser.add_argument('--batch-size', default=64, type=int)
 # parser.add_argument('--char-dim', default=20, type=int)
@@ -49,10 +51,10 @@ def load_model(args, data):
 # parser.add_argument('--model-path', default="/data/ltt/BIMPM/saved_models/BIBPM_Quora_0.83.pt")
 # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # parser.add_argument('--device', default=device, type=int)
-
+#
 # args = parser.parse_args()
-
-import pickle
+# with open('ltt_args.pkl', 'wb') as f:
+#     pickle.dump(args, f)
 
 with open('ltt_args.pkl', 'rb') as f:
     args = pickle.load(f)

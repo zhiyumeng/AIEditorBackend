@@ -12,7 +12,7 @@ def evaluate_setence(sent1, sent2):
 
 
 def stastics():
-    df = pd.read_csv('data/sentence_pairs_web.csv')[['question1', 'question1']]
+    df = pd.read_csv('data/after_data_selected.csv',sep='\t')[['question1', 'question1']]
     rs = [evaluate_setence(sent1, sent2) for sent1, sent2 in df.values]
     rs = zip(*rs)
     return pd.DataFrame({'ltt': rs[0], 'my': rs[1], 'cz': rs[2]})
