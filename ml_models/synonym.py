@@ -2,15 +2,13 @@ import sys
 
 sys.path.append('/data/zly')
 
+import time
 
 from xkcd import get_syn
 
 
-import time
-
-
-def get_syn_words(word):
-    return get_syn(word)[0]
+def get_syn_words(sentence, id):
+    return get_syn(sentence, id)
 
 
 if __name__ == '__main__':

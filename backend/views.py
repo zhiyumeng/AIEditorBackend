@@ -18,7 +18,6 @@ from numpy import ceil
 from backend.utils.user_level import get_user_level
 
 
-
 # 同义改写
 @csrf_exempt
 def get_paraphrase(request):
@@ -267,8 +266,8 @@ def get_staistic_for_user(request, user_id):
 
 
 # 获取同义词
-def syn_words(request, word):
-    words = get_syn_words(word)
+def syn_words(request, sentence, id):
+    words = get_syn_words(sentence, id)
     return JsonResponse({'syn': words})
 
 
