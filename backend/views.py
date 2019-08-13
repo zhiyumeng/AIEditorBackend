@@ -266,7 +266,10 @@ def get_staistic_for_user(request, user_id):
 
 
 # 获取同义词
-def syn_words(request, sentence, id):
+@csrf_exempt
+def syn_words(request):
+    info = json.loads(request.body)
+    sentence, id = info['sentence'], int(info['id'])
     words = get_syn_words(sentence, id)
     return JsonResponse({'syn': words})
 
