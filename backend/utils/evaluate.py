@@ -99,7 +99,7 @@ def evaluate_similarity(sentence, customer_answer):
     Beta = np.array([1.5497187, 0.63752652, 2.23683518, -2.53611195])
     similarity_score_float = model_ensemble_predict(X, Beta)
    # similarity_score_float = ltt_similarity * 1.5497187 + my_similarity * 0.63752652 + bert_similarity * 2.23683518 - 2.53611195
-    similarity_score_float += 0.1
+   #  similarity_score_float += 0.1
     def get_label(num):
         bins = [-100, 0.2, 0.4, 0.5, 0.6, 0.8, 100]
         for i in range(0, 6):
