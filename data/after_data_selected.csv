@@ -1,0 +1,63 @@
+id	qid1	qid2	question1	question2	is_duplicate
+0	-1	0	I prefer listening to music to watching television.	I like listening to music more than watching television.	1
+1	1	2	Television has too much advertising.	Television has too many adverts.	1
+2	3	4	There are only a few good programmes on television that I like watching.	There aren't a lot of good programmes on television worth watching.	1
+3	5	6	I haven't watched television for ages.	It's been a long time since I watched television.	1
+4	7	8	If I don't buy some new music every month, I get bored with my collection.	I get bored with my collection so I buy some new music every month.	1
+5	9	10	Why don't you stay in and watch television this afternoon?	If I were you, I would stay in and watch television this afternoon.	1
+6	11	12	They have a lot of repeats on television at the moment.	There are a lot of repeats on television lately.	1
+7	13	14	You should take the train instead of the bus.	If I were you, I’d take the train instead of the bus.	1
+8	15	16	I’m sure that someone forgot to lock the door.	Someone must have forgotten to lock the door.	1
+9	17	18	They bought this house ten years ago.	They have had owned this house for ten years.	1
+10	19	20	The course finished with a big party.	At the end of the course, there was a big party.	1
+11	21	22	We invited a pop star onto the chat show, but he didn’t turn up.	The pop star whom we invited onto the chatshow didn’t turn up.	1
+12	23	24	Although she said that she would come, I don’t think she ever will.	Despite her saying that she would come, I don’t think she ever will.	1
+13	25	26	The plane had hardly left the airport when the accident happened.	No sooner had the plane left the airport than the accident happened.	1
+14	27	28	You feel tired now because you didn’t sleep very well last night.	Had you slept well last night, you wouldn’t feel tired now.	1
+15	29	30	When did you start the project?	How long is it since you started the project?	1
+16	31	32	Their wedding will be held in a lovely church.	The church where their wedding will be held is lovely.	1
+17	33	34	My father used to play football when he was young.	My father doesn’t play football anymore.	1
+18	35	36	Jane gave me a present on my last birthday.	I was given a present on my last birthday.	1
+19	37	38	Let’s go swimming.	She suggests going swimming.	1
+20	39	40	Would you like a cup of coffee?	He invited me to have a cup of coffee.	1
+21	41	42	We got lost in the jungle because we didn’t have a map.	If we had had a map, I wouldn’t got lost in the jungle	1
+22	43	44	It is a three-hour drive from Hanoi to Namdinh.	It takes three hours to drive from Hanoi to Namdinh.	1
+23	45	46	It’s a pity you didn’t tell us about this.	I wish you had told us about it.	1
+24	47	48	They think the owner of the house is abroad.	The owner of the house is thought to be abroad.	1
+25	49	50	The children couldn’t go swimming because the sea was very rough.	The sea was too rough for the children to go swimming.	1
+26	51	52	Anne read the book then she went to see the film.	After reading the book, Anne went to see the film.	1
+27	53	54	Mike moved to Australia six months ago.	Mike has been living in Australia for six months.	1
+28	55	56	'You must park here', the police officer said to Agnes.	The police officer told Agnes she had to park there.	1
+29	57	58	If I am paid all the money I am owed, I will change my car.	Should I be paid all the money I am owed, I will change my car.	1
+30	59	60	I wouldn’t buy a new house, even if I won the lottery.	Even if I were to win the lottery, I wouldn’t buy a new house.	1
+31	61	62	They are going to build a new cinema on the site of the old library.	A new cinema will be built on the site of the old library.	1
+32	63	64	There isn’t enough money to pay the bill.	There is too little money to pay the bill.	1
+33	65	66	The book was very expensive, so I decided not to buy it.	The book was so expensive that I decided not to buy it.	1
+34	67	68	It cannot be true that Peter is getting married.	Peter can’t be getting married.	1
+35	69	70	They possibly haven’t received the message yet.	They might not have received the message yet.	1
+36	71	72	What does the doctor recommend?	What does the doctor think you ought to do?	1
+37	73	74	Shall we invite Francis and Bob over for dinner this evening?	Why don’t we invite Francis and Bob over for dinner this evening?	1
+38	75	76	We all need to let our families know we are safe.	Each one of us needs to let our family know we are safe.	1
+39	77	78	If you walk faster, you will get there sooner.	The faster you walk, the sooner you get there.	1
+40	79	80	That’s the stupidest thing I’ve ever heard.	I’ve never heard anything so stupid.	1
+41	81	82	The thief said he did not shoot the guard dog.	The thief denied having shot the guard dog.	1
+42	83	84	I have never heard such a ridiculous proposal.	Never have I heard such a ridiculous proposal.	1
+43	85	86	Neither Albania nor Turkey is part of the European Union.	Albania is not part of the European Union, nor is Turkey.	1
+44	87	88	I really need to do more exercise.	What I really need to do is more exercise.	1
+45	89	90	The orcs are coming to attack us because you're making too much noise.	If you didn't make so much noise, the orcs wouldn't come to attack us.	1
+46	91	92	We can't walk across the hall because the dragon is awake.	If the dragon was sleeping, we would be able to walk across the hall.	1
+47	93	94	I lied to you about the treasure because you're too greedy!	I wouldn't have lied to you about the treasure if you weren't so greedy.	1
+48	95	96	We are going to die here because you attacked that sleeping dragon.	We wouldn't have to die here if you didn't attack the sleeping dragon?	1
+49	97	98	This mission is going to be difficult because that castle has magical protection.	This would be easier if the castle didn't have magical protection.	1
+50	99	100	I have him in the group because he's an excellent swordsman.	If he wasn't an excellent swordsman, we wouldn't have him in the group.	1
+51	101	102	I'm asking for the help of the dark wizard because I'm desperate.	I wouldn't ask the dark wizard for help if I wasn't desperate.	1
+52	103	104	I just won't leave you here because I don't know how to operate the magical portal.	If I knew how to operate the magical portal, I would leave you here.	1
+53	105	106	To some extent I agree that advertising has an impact on sales.	I agree that advertising affects sales to some extent.	1
+54	107	108	We do need most of the goods that we buy.	Most of the goods that we buy are needed.	1
+55	109	110	The man loves to drink wine.	The guy is fond of drinking wine.	1
+56	111	112	As the campaign mounts, there have already been accusations of vote-rigging.	As the campaign mounts, allegations of voting-rigging have already been made.	1
+57	113	114	Although Putin is undoubtedly an important and influential figure, his domestic reach has its limits.	While Putin is certainly a significant and influential figure, his internal reach has its boundaries.	1
+58	115	116	Power in Russia is tightly centralized, and governors are usually members of Putin’s United Russia party.	Power is highly centralized in Russia, and governors are mainly members of the United Russia party of Putin.	1
+59	117	118	Rather, regional governors and their administrations are often responsible for distributing state budgets and implementing Moscow instructions.	Instead, it often falls to regional governors and their administrations to distribute state budgets and implement orders from Moscow.	1
+60	119	120	These figures were appointed based on their personal loyalty to the Kremlin.	Based on their private allegiance to the Kremlin, these figures were assigned.	1
+61	121	122	Examining some of these governors in more detail shows where Russia’s foreign and domestic policy strategy may be headed.	Examining some of these governors in greater detail reveals where the foreign and domestic policy plan of Russia will be headed.	1
